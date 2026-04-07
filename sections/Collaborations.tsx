@@ -3,7 +3,7 @@ import React from 'react'
 
 const CollaborationsGraph = () => {
     return (
-        <div className='flex-center flex-col w-full gap-5'>
+        <div className='flex-center flex-col w-full gap-5 max-lg:w-[70%]'>
             <div className='flex items-center justify-around'>
                 <Image
                     src='/collaboration/figma.png'
@@ -26,7 +26,7 @@ const CollaborationsGraph = () => {
                     height={30}
                 />
             </div>
-            <div className='flex items-center justify-around gap-24'>
+            <div className='flex items-center justify-around gap-20'>
                 <Image
                     src='/collaboration/framer.png'
                     alt='framer'
@@ -76,8 +76,8 @@ const CollaborationsGraph = () => {
 
 const Collaborations = () => {
     return (
-        <section id='collab' className='w-full p-5 my-8 flex-center flex-row-reverse'>
-            <div className='w-[70%]'>
+        <section id='collab' className='w-full p-5 my-8 flex-center flex-row-reverse max-lg:flex-col-reverse'>
+            <div className='w-[70%] max-lg:w-full'>
                 <div className='mb-7 g-11 p-5 border rounded-xl shadow-lg'>
                     <h1 className='text-white font-bold'>Smart way to connect.</h1>
                     <p className='text-gray-300 text-sm mt-2'>
@@ -85,7 +85,7 @@ const Collaborations = () => {
                     </p>
                     <p className='font-bold text-sm text-gray-500 w-full text-end'>- InsightStream -</p>
                 </div>
-                <div className='g-11 p-5 border w-[80%] rounded-xl shadow-lg'>
+                <div className='g-11 p-5 border w-[80%] max-lg:hidden rounded-xl flex-center shadow-lg'>
                     <CollaborationsGraph />
                 </div>
             </div>

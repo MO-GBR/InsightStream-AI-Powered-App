@@ -4,42 +4,42 @@ import React from 'react'
 const Hero = () => {
     return (
         <section id='hero' className='min-h-screen flex-center gap-10 flex-col'>
-            <h1 className="text-4xl mb-6 mt-20">
+            <h1 className="text-4xl mb-6 mt-20 max-lg:mt-32 max-lg:ml-5">
                 Explore the Possibilities of&nbsp;AI&nbsp;Chatting with {` `}
                 <span className="inline-block relative font-mono">
                     InsightStream{" "}
                     <img
                         src="/hero/curve.png"
-                        className="absolute top-full left-0 w-full xl:-mt-2"
+                        className="absolute top-full left-0 w-full animate-pulse"
                         width={624}
                         height={28}
                         alt="Curve"
                     />
                 </span>
             </h1>
-            <p className="text-gray-300 text-lg max-w-xl text-center">
+            <p className="text-gray-300 text-lg max-w-xl text-center max-lg:mb-12">
                 Unleash the power of AI within InsightStream. Upgrade your productivity
                 with InsightStream, the open AI chat app.
             </p>
-            <div className='border-2 border-white p-3 w-[20%] text-center bg-transparent rounded rounded-tr-3xl font-bold cursor-pointer z-10'>Get Started</div>
-            <div className='g-1 rounded-2xl pt-3 p-0.5 w-fit mb-[100px]'>
-                <div className='flex items-center justify-start g-3 p-2 w-fit rounded-tl-2xl gap-3 ml-4 rounded-tr-2xl'>
+            <div className='border-2 border-white p-3 w-[20%] max-lg:w-[80%] text-center bg-transparent rounded rounded-tr-3xl font-bold cursor-pointer z-10'>Get Started</div>
+            <div className='g-11 rounded-2xl pt-3 p-0.5 w-fit mb-[100px] max-lg:mx-2'>
+                <div className='flex items-center justify-start g-9 p-2 w-fit rounded-tl-2xl gap-3 ml-4 rounded-tr-2xl'>
                     <div className='dot bg-red-600' />
                     <div className='dot bg-yellow-600' />
                     <div className='dot bg-green-600' />
                 </div>
                 <Image
-                    src="/hero/Hero.jpg"
+                    src="/App_Screen.jpg"
                     alt="Hero Image"
-                    className="img w-[51vw] rounded-2xl"
+                    className="img w-[51vw] max-lg:w-screen rounded-2xl"
                     width={1024}
                     height={490}
                 />
-                <div className='flex items-center justify-between w-[60vw] absolute top-[90%] left-[50%] -translate-x-1/2 -translate-y-1/2'>
+                <div className='flex items-center justify-between w-[60vw] absolute top-[90%] left-[50%] -translate-x-1/2 -translate-y-1/2 max-lg:hidden'>
                     <div className='flex items-center gap-4 bg-gray-800 mb-[80px] animate-bounce rounded-2xl p-4 w-fit h-fit shadow-xl'>
                         <Image
                             src='/notification/image-1.png'
-                            className='rounded-xl'
+                            className='rounded-xl img w-[30px]'
                             width={50}
                             height={50}
                             alt='badge-1'
@@ -67,7 +67,7 @@ const Hero = () => {
                     </div>
                     <div className='bg-gray-800 rounded-2xl p-4 animate-bounce w-fit h-fit shadow-xl flex-center gap-3 mt-[100px]'>
                         {
-                            ["/file-02.svg", "/chrome-cast.svg", "/home-smile.svg", "/plus-square.svg"].map((src, index) => (
+                            ["/icons/file-02.svg", "/icons/chrome-cast.svg", "/icons/home-smile.svg", "/icons/plus-square.svg"].map((src, index) => (
                                 <Image
                                     key={index}
                                     src={src}
@@ -81,7 +81,7 @@ const Hero = () => {
                     </div>
                 </div>
             </div>
-            <Image src="/pricing/stars.svg" alt='stars' width={2000} height={2000} className='absolute -z-10' />
+            <Image src="/hero/stars.svg" alt='stars' width={2000} height={2000} className='absolute -z-10' />
         </section>
     )
 }

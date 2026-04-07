@@ -9,8 +9,8 @@ const NewFeatures = () => {
                 <h1 className='text-violet-800 font-bold'>{'[COMING SOON]'}</h1>
                 <h1 className='text-2xl font-mono'>What we're working on</h1>
             </div>
-            <div className='flex-center gap-10'>
-                <div className='bg-gray-500 p-1 rounded-xl'>
+            <div className='flex-center max-lg:flex-col gap-10'>
+                <div className='bg-gray-500 p-1 rounded-xl max-lg:mx-2'>
                     <div className='bg-black p-5 rounded-xl'>
                         <Image
                             src='/roadmap/image-1.png'
@@ -20,7 +20,7 @@ const NewFeatures = () => {
                         />
                     </div>
                 </div>
-                <div>
+                <div className='max-lg:mx-2'>
                     <div className='g-9 p-3 rounded-full my-5 font-bold text-sm text-center'>#COOKING_MAGIC</div>
                     {
                         UpcomingFeatures.map((feature, index) => (

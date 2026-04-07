@@ -24,9 +24,9 @@ model User {
   email         String    @unique
   name          String?
   image         String?
+  password      String?
   projects      Project[]
   plan          String    @default("basic")
-  subscribed    Boolean   @default(false)
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 }
@@ -46,9 +46,15 @@ model Project {
   // Relations
   user              User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId            String
+
+  // Arrays
+  cursors           SourceCursor[]
   mentions          Mention[]
   documents         Document[]
   briefings         Briefing[]
+  crisis            Crisis[]
+  responses         ResponseSuggestion[]
+  brandVoices       BrandVoice[]
 
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @updatedAt
@@ -61,21 +67,24 @@ model Project {
 // ---------------------------------------------------------
 
 model Mention {
-  id              String    @id @default(uuid())
-  content         String    @db.Text
-  source          String    // "Twitter", "Reddit", "LinkedIn"
-  author          String?
-  isCompetitor    Boolean   @default(false)
-  url             String?
+  id                String    @id @default(uuid())
+  externalId        String?   // Reddit ID, Tweet ID etc
+  content           String    @db.Text
+  source            String    // "Twitter", "Reddit", "LinkedIn"
+  author            String?
+  isCompetitor      Boolean   @default(false)
+  url               String?
   
   // Relations
-  project         Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  projectId       String
-  analysis        Analysis? // 1-to-1: Every mention gets one AI verdict
+  project           Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId         String
+  analysis          Analysis? // 1-to-1: Every mention gets one AI verdict
+  generatedResponse ResponseSuggestion[]
 
-  createdAt       DateTime  @default(now())
+  createdAt         DateTime  @default(now())
 
-  @@index([projectId])
+  @@unique([externalId, source])
+  @@index([projectId, createdAt])
 }
 
 model Analysis {
@@ -96,14 +105,31 @@ model Analysis {
   createdAt      DateTime @default(now())
 }
 
+// -------------------
+// 4. SOURCE CURSOR (Prevent Duplicates)
+// -------------------
+
+model SourceCursor {
+  id        String   @id @default(uuid())
+  source    String   // "reddit", "rss", "twitter"
+  keyword   String
+  lastSeen  String?  // post ID or timestamp depending on API
+  projectId String
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  updatedAt DateTime @updatedAt
+
+  @@unique([source, keyword, projectId])
+}
+
 // ---------------------------------------------------------
-// 4. KNOWLEDGE VAULT (PDFs & RAG)
+// 5. KNOWLEDGE VAULT (PDFs & RAG)
 // ---------------------------------------------------------
 
 model Document {
   id          String   @id @default(uuid())
   fileName    String
-  fileUrl     String   // Supabase Storage URL
+  type        String   // Supabase Storage URL
   
   project     Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
   projectId   String
@@ -118,7 +144,7 @@ model Chunk {
   
   // IMPORTANT: For 2026, we use pgvector for AI search
   // You will need to run `CREATE EXTENSION vector;` in your Supabase SQL editor
-  embedding   Unsupported("vector")? 
+  embedding   Unsupported("vector(768)")? 
   
   document    Document               @relation(fields: [docId], references: [id], onDelete: Cascade)
   docId       String
@@ -126,8 +152,32 @@ model Chunk {
   @@index([docId])
 }
 
+model BrandVoice {
+  id            String  @id @default(uuid())
+
+  tone          String
+  style         String
+  responseSize  String
+  emojiLevel    String
+
+  project       Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId     String  @unique
+}
+
+model ConversationMemory {
+  id          String   @id @default(uuid())
+
+  mentionId   String
+  projectId   String
+
+  input       String   @db.Text
+  response    String   @db.Text
+
+  createdAt   DateTime @default(now())
+}
+
 // ---------------------------------------------------------
-// 5. EXECUTIVE BRIEFINGS (Audio/Summary History)
+// 6. EXECUTIVE BRIEFINGS (Audio/Summary History)
 // ---------------------------------------------------------
 
 model Briefing {
@@ -139,4 +189,52 @@ model Briefing {
   projectId   String
 
   createdAt   DateTime @default(now())
+}
+
+// -------------------
+// 7. EVENTS (AI Job Queue)
+// -------------------
+
+model Event {
+  id          String   @id @default(uuid())
+  type        String
+  payload     Json
+  status      String   @default("pending")
+  attempts    Int      @default(0)
+  createdAt   DateTime @default(now())
+  processedAt DateTime?
+}
+
+// -------------------
+// 8. CRISIS & AI Generated Responses
+// -------------------
+
+model Crisis {
+  id         String   @id @default(uuid())
+  projectId  String
+  severity   String
+  message    String
+
+  createdAt  DateTime @default(now())
+
+  project    Project  @relation(fields: [projectId], references: [id])
+}
+
+model ResponseSuggestion {
+  id        String   @id @default(uuid())
+
+  mentionId String
+  projectId String
+
+  response  String
+  tone      String   // "professional" | "witty" | "empathetic"
+  status    String   @default("pending")
+
+  createdAt DateTime @default(now())
+
+  mention   Mention  @relation(fields: [mentionId], references: [id], onDelete: Cascade)
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@index([mentionId])
+  @@index([projectId])
 }

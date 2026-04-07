@@ -24,3 +24,37 @@ export type PricingPlan = {
     price: number;
     features: string[];
 }
+
+export type EventType = {
+    type: string;
+    sentimentChange: number;
+    timestamp: string;
+    keyword: string;
+    mentionsSpike: number;
+    explanation: string;
+}
+
+export type ChunckType = {
+    id: string;
+    content: string;
+    embedding: number[];
+    docId: string;
+};
+
+export type ProjectType = {
+    id?: string;
+    name: string;
+    keyword: string
+    competitorKeyword?: string;
+    brandVoice: string;
+};
+
+export type ProjectStore = {
+    projects: ProjectType[];
+    currentProject: ProjectType | null;
+
+    setProjects: (projects: ProjectType[]) => void;
+    setCurrentProject: (project: ProjectType) => void;
+
+    fetchProjects: () => Promise<void>;
+};

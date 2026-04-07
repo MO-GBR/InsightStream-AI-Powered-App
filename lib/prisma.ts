@@ -8,8 +8,10 @@ const connectionString = process.env.DIRECT_URL;
 
 const adapter = new PrismaPg({ connectionString });
 
-export const prisma = globalForPrisma.prisma || new PrismaClient({ adapter });
+// export const prisma = globalForPrisma.prisma || new PrismaClient({ adapter });
 
-if (process.env.NODE_ENV !== "production") {
-	globalForPrisma.prisma = prisma;
-}
+export const prisma = new PrismaClient({ adapter });
+
+// if (process.env.NODE_ENV !== "production") {
+// 	globalForPrisma.prisma = prisma;
+// }

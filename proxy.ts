@@ -1,8 +1,20 @@
 import { updateSession } from "@/lib/supabase/proxy";
-import { type NextRequest } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
+import { auth } from "./lib/auth";
 
 export async function proxy(request: NextRequest) {
-  return await updateSession(request);
+  const session = await auth();
+  const protectedRoutes = ["/v1/dashboard", "/v1/profile", "/v1/settings"];
+
+  const isProtectedRoute = protectedRoutes.some((route) =>
+    request.nextUrl.pathname.startsWith(route)
+  );
+
+  if(isProtectedRoute && !session?.user) {
+    const url = request.nextUrl.clone();
+    url.pathname = '/';
+    return NextResponse.redirect(url);
+  }
 }
 
 export const config = {

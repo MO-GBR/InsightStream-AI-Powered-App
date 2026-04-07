@@ -77,3 +77,25 @@ export const UpcomingFeatures: { feature: string; about: string }[] = [
         about: 'Get deeper insights into your brand’s performance with enhanced analytics tools.',
     }
 ];
+
+
+export const InsightStreamLinks: NavLink[] = [
+    { name: "Dashboard", href: "/v1/dashboard" },
+    { name: "Crisis Shield", href: "/v1/crisis_shield" },
+    { name: "Knowledge Vault", href: "/v1/knowledge_vault" },
+    { name: "War Room", href: "/v1/war_room" },
+    { name: "Vibe Tracker", href: "/v1/vibe_tracker" },
+];
+
+export const sentimentWords: string[] = [
+    "love",
+    "hate",
+    "amazing",
+    "terrible",
+    "problem",
+    "bug",
+    "expensive",
+    "bad",
+    "great",
+    "awful"
+];

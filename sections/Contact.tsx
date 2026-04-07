@@ -14,9 +14,9 @@ const Contact = () => {
                         <button className='px-6 py-3 bg-violet-700 text-white rounded-[5px] rounded-tr-3xl'>Send Message</button>
                     </div>
                 </div>
-                <div className='bg-violet-800 rounded-t-2xl rounded-br-[50px] border-4 border-violet-900 flex items-end justify-end'>
+                <div className='bg-violet-800 rounded-t-2xl rounded-br-[50px] border-4 border-violet-900 flex items-end justify-end max-lg:hidden'>
                     <Image
-                        src='/services/service-3.png'
+                        src='/robots/service-3.png'
                         alt='Contact Image'
                         width={500}
                         height={500}

@@ -6,12 +6,12 @@ const Feature = ({hashtag, title, description, card}: FeatureType) => {
     return (
         <div className='flex-center'>
             <Image
-                src={`benefits/card-${card}.svg`}
+                src={`/benefits/card-${card}.svg`}
                 alt='card'
                 width={350}
                 height={350}
             />
-            <div className='absolute w-[20%] flex flex-col'>
+            <div className='absolute w-[20%] max-lg:w-[90%] flex flex-col'>
                 <div className={`mb-2 p-2 rounded-full flex items-center gap-1 g-5`}>
                     <p className='font-bold italic text-sm'>#</p>
                     <p className='text-xs'>{hashtag}</p>

@@ -1,5 +1,9 @@
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials"
+import { prisma } from "./prisma";
+import { loginSchema } from "./utils/Zod";
+import { comparePassword } from "./utils/HandlePassword";
+import Google from "next-auth/providers/google"
  
 export const { handlers, signIn, signOut, auth } = NextAuth({
 	providers: [
@@ -18,17 +22,67 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 				}
 			},
 			authorize: async (credentials) => {
-				const email = credentials?.email as string | undefined;
-				const password = credentials?.password as string | undefined;
+				const { email, password } = await loginSchema.parseAsync(credentials);
+
+				console.log('email:', email, 'password:', password)
 
 				if (!email || !password) throw new Error("Email and password are required");
 
-				return {}
+				const user = await prisma.user.findUnique({
+					where: { email },
+				})
+
+				if (!user) throw new Error("EMAIL_NOT_FOUND");
+
+				const isPasswordValid = comparePassword(password, user?.password as string);
+				if(!isPasswordValid) throw new Error("WRONG_PASSWORD");
+
+				return user;
 			}
-		})
+		}),
+		Google({
+			clientId: process.env.AUTH_GOOGLE_ID,
+			clientSecret: process.env.AUTH_GOOGLE_SECRET
+		}),
 	],
 	secret: process.env.AUTH_SECRET,
 	session: {
 	    strategy: 'jwt',
 	},
+	callbacks: {
+		async jwt({ token, user }) {
+			if(user) token.id = user.id;
+			return token;
+		},
+		async session({ session, token }) {
+			if(session.user) session.user.id = token.id as string;
+			return session;
+		},
+		signIn: async ({ user, account }) => {
+			if(account?.provider === "google") {
+				const existingUser = await prisma.user.findUnique({
+					where: { email: user.email as string },
+				});
+
+				if (!existingUser) {
+					await prisma.user.create({
+						data: {
+							email: user.email as string,
+							name: user.name as string,
+							image: user.image as string,
+							plan: 'Basic',
+						},
+					});
+				} else {
+					return true;
+				}
+			}
+
+			if(account?.provider === "credentials") {
+				return true;
+			} else {
+				return false;
+			}
+		}
+	}
 });
