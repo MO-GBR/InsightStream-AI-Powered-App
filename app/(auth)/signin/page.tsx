@@ -12,7 +12,7 @@ const SignInPage = () => {
         errors: {}
     });
     const { data: session } = useSession();
-    if(session?.user) redirect("/v1/dashboard");
+    // if(session?.user) redirect("/v1/dashboard");
     return (
         <div id='signin' className='w-full min-h-screen flex-center'>
             <div className='glass p-5'>

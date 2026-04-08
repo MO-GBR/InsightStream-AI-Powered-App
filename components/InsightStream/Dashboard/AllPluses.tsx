@@ -1,6 +1,7 @@
 'use client';
 import { useProjectStore } from '@/lib/zustand/ProjectStore';
 import React from 'react'
+import PulseCard from './PulseCard';
 
 const AllPluses = () => {
     const { projects } = useProjectStore();
@@ -8,7 +9,16 @@ const AllPluses = () => {
         <>
             {
                 projects.length > 0 ? (
-                    <div>All</div>
+                    <>
+                        {
+                            projects.map((project, index) => (
+                                <PulseCard
+                                    key={index}
+                                    project={project}
+                                />
+                            ))
+                        }
+                    </>
                 ) : (
                     <div className='col-span-3 flex-center flex-col p-6'>
                         <h2 className="text-2xl font-bold mb-4">No Projects Found</h2>

@@ -2,11 +2,25 @@
 
 import React from 'react'
 
-import { useRef } from "react"
+import { useRef, useState } from "react"
 import gsap from "gsap"
+import { ProjectType } from '@/types';
+import { useProjectStore } from '@/lib/zustand/ProjectStore';
 
-const PulseCard = () => {
+const PulseCard = ({ project }: { project: ProjectType }) => {
     const cardRef = useRef<HTMLDivElement>(null);
+    // const [ isCurrent, setIsCurrent ] = useState(false);
+
+    const isCurrent = project.id === useProjectStore.getState().currentProject?.id;
+
+    const { setCurrentProject, currentProject } = useProjectStore();
+
+    console.log(
+        {
+            current: currentProject,
+            fetched: project
+        }
+    );
 
     const handleMove = (e: React.MouseEvent<HTMLDivElement>) => {
         const card = cardRef.current;
@@ -50,24 +64,32 @@ const PulseCard = () => {
     return (
         <div
             ref={cardRef}
-            className="pulse-card"
+            className={`pulse-card ${isCurrent ? 'border-emerald-400/80 bg-green-900' : 'border-white/20 bg-black/20'}`}
             onMouseMove={handleMove}
             onMouseLeave={handleLeave}
+            onClick={() => setCurrentProject(project)}
         >
-            <div className="flex justify-between mb-4">
-                <span className="text-white/80 text-sm">Apple</span>
+            <div className="flex justify-between items-start mb-4">
+                <span className="text-white/80 text-sm">{project.name}</span>
                 <span className="text-emerald-400 text-xs">+4%</span>
             </div>
 
             <div className='spark-line my-2' />
 
             <div className="text-xs text-white/60">
-                Keyword: iPhone 17
+                Keyword: {project.keyword}
             </div>
 
             <div className="text-xs text-white/40 mt-1">
                 Mentions: 12.3k
             </div>
+            {
+                isCurrent && (
+                    <div className="absolute bottom-2 right-2 text-xs text-emerald-400 border p-1 rounded-full">
+                        Current
+                    </div>
+                )
+            }
             <div className="cursor-glow" />
         </div>
     )

@@ -1,12 +1,7 @@
-import Navbar from '@/components/InsightStream/Navbar'
+
 import { auth } from '@/lib/auth'
 import { redirect } from 'next/navigation';
 import React from 'react'
-import { SessionProvider } from "next-auth/react";
-import Sidebar from '@/components/InsightStream/Sidebar';
-import GradientAnimation from '@/style/GradientAnimation';
-import PulseCard from '@/components/InsightStream/Dashboard/PulseCard';
-import Footer from '@/components/InsightStream/Footer';
 import AddPluse from '@/components/InsightStream/Dashboard/AddPluse';
 import CrisisCard from '@/components/InsightStream/Dashboard/CrisisCard';
 import SummaryCard from '@/components/InsightStream/Dashboard/SummaryCard';
@@ -14,10 +9,17 @@ import HeatmapCard from '@/components/InsightStream/Dashboard/HeatmapCard';
 import VibeCard from '@/components/InsightStream/Dashboard/VibeCard';
 import BriefingAudioPlayer from '@/components/InsightStream/Dashboard/BriefingAudioPlayer';
 import AllPluses from '@/components/InsightStream/Dashboard/AllPluses';
+import { AI_GEMINI } from '@/lib/InsightStream/utils/AI';
 
 const Dashboard = async () => {
-    // const session = await auth();
-    // if(!session?.user) redirect('/');
+    const session = await auth();
+    if(!session?.user) redirect('/');
+    const testAi = await AI_GEMINI.models.generateContent({
+        model: 'gemini-3-flash-preview',
+        contents: 'Tell me a joke'
+    });
+
+    console.log('AI Response:', testAi.text);
     return (
         <div className='w-full'>
             <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 w-full p-5'>
