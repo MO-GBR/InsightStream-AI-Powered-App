@@ -9,7 +9,7 @@ const reddit = new Snoowrap({
     refreshToken: process.env.REDDIT_REFRESH_TOKEN!
 });
 
-export const fetchRedditMentions = async (keyword: string, projectId: string) => {
+export const fetchRedditMentionsAPI = async (keyword: string, projectId: string) => {
     const cursor = await prisma.sourceCursor.findUnique({
         where: {
             source_keyword_projectId: {
@@ -50,3 +50,5 @@ export const fetchRedditMentions = async (keyword: string, projectId: string) =>
         create: { source: "reddit", keyword, projectId, lastSeen: posts[0]?.id }
     });
 };
+
+export const fetchRedditMentionsScraper = async (keyword: string, projectId: string) => {};

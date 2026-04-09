@@ -9,17 +9,11 @@ import HeatmapCard from '@/components/InsightStream/Dashboard/HeatmapCard';
 import VibeCard from '@/components/InsightStream/Dashboard/VibeCard';
 import BriefingAudioPlayer from '@/components/InsightStream/Dashboard/BriefingAudioPlayer';
 import AllPluses from '@/components/InsightStream/Dashboard/AllPluses';
-import { AI_GEMINI } from '@/lib/InsightStream/utils/AI';
 
 const Dashboard = async () => {
     const session = await auth();
     if(!session?.user) redirect('/');
-    const testAi = await AI_GEMINI.models.generateContent({
-        model: 'gemini-3-flash-preview',
-        contents: 'Tell me a joke'
-    });
 
-    console.log('AI Response:', testAi.text);
     return (
         <div className='w-full'>
             <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 w-full p-5'>

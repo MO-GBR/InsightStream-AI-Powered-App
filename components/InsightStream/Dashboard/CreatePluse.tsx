@@ -1,5 +1,6 @@
 'use client'
 import { ProjectAPI } from '@/lib/InsightStream/services/project/ProjectAPI';
+import { prisma } from '@/lib/prisma';
 import { useProjectStore } from '@/lib/zustand/ProjectStore'
 import { useState } from 'react';
 
@@ -15,6 +16,24 @@ const CreatePluse = () => {
             keyword,
             brandVoice,
         });
+
+        await prisma.sourceCursor.create({
+            data: {
+                projectId: project.id as string,
+                source: 'Reddit',
+                keyword,
+                lastSeen: null
+            }
+        });
+
+        await prisma.sourceCursor.create({
+            data: {
+                projectId: project.id as string,
+                source: 'RSS',
+                keyword,
+                lastSeen: null
+            }
+        })
 
         useProjectStore.setState((state) => ({
             projects: [project, ...state.projects],
