@@ -210,14 +210,20 @@ model Event {
 // -------------------
 
 model Crisis {
-  id         String   @id @default(uuid())
-  projectId  String
-  severity   String
-  message    String
+  id           String   @id @default(uuid())
+  projectId    String
 
-  createdAt  DateTime @default(now())
+  severity     String
+  message      String
 
-  project    Project  @relation(fields: [projectId], references: [id])
+  score        Float
+  negativeRate Float
+  crisisRate   Float
+  volumeSpike  Float
+
+  createdAt    DateTime @default(now())
+
+  project      Project  @relation(fields: [projectId], references: [id])
 }
 
 model ResponseSuggestion {

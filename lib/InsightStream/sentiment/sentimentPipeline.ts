@@ -55,7 +55,7 @@ export const runSentimentPipeline = async (mentionId: string) => {
 
     emitEvent("SENTIMENT_ANALYZED", { mentionId, projectId: mention.projectId });
 
-    if (analysis.label === 'Negative') await generateResponse(mention.id)
+    // if (analysis.label === 'Negative') await generateResponse(mention.id)
 
     return analysis;
 };

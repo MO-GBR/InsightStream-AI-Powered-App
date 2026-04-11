@@ -1,14 +1,8 @@
 import { prisma } from "@/lib/prisma";
 import { runSentimentPipeline } from "../sentiment/sentimentPipeline";
-import { detectCrisis } from "../crisis/crisisEngine";
 
 type MentionEventPayload = {
     mentionId: string
-};
-
-type CrisisEventPayload = {
-    crisisId: string;
-    projectId: string;
 };
 
 export const runAIWorker = async () => {
@@ -24,14 +18,6 @@ export const runAIWorker = async () => {
             if (!payload?.mentionId) return;
 
             await runSentimentPipeline(payload.mentionId);
-        }
-
-        if(event.type === 'CRISIS_DETECTED') {
-            const payload = event.payload as CrisisEventPayload | null;
-
-            if (!payload?.crisisId) return;
-
-            await detectCrisis(payload.projectId);
         }
 
         await prisma.event.update({

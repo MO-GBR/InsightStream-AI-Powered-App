@@ -5,7 +5,7 @@
     "build": "prisma generate --no-engine && next build",
     "start": "next start",
     "lint": "eslint .",
-    "work": "ts-node ./scripts/work.ts"
+    "work": "tsx ./scripts/work.ts"
   },
   "dependencies": {
     "@google/genai": "^1.45.0",
