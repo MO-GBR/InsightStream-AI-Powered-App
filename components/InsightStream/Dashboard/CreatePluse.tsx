@@ -2,14 +2,14 @@
 import { ProjectAPI } from '@/lib/InsightStream/services/project/ProjectAPI';
 import { prisma } from '@/lib/prisma';
 import { useProjectStore } from '@/lib/zustand/ProjectStore'
-import { useState } from 'react';
+import { useState, SubmitEvent } from 'react';
 
 const CreatePluse = () => {
     const [ name, setName ] = useState('');
     const [ keyword, setKeyword ] = useState('');
     const [ brandVoice, setBrandVoice ] = useState('');
 
-    const handleSubmit = async (e: any) => {
+    const handleSubmit = async (e: SubmitEvent) => {
         e.preventDefault();
         const project = await ProjectAPI.createProject({
             name,
@@ -17,23 +17,20 @@ const CreatePluse = () => {
             brandVoice,
         });
 
-        await prisma.sourceCursor.create({
-            data: {
-                projectId: project.id as string,
-                source: 'Reddit',
+        const cursorResponse = await fetch('/api/projects/init_cursors', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                projectId: project.id,
                 keyword,
-                lastSeen: null
-            }
+            }),
         });
 
-        await prisma.sourceCursor.create({
-            data: {
-                projectId: project.id as string,
-                source: 'RSS',
-                keyword,
-                lastSeen: null
-            }
-        })
+        if (!cursorResponse.ok) {
+            throw new Error('Failed to initialize project cursors');
+        };
 
         useProjectStore.setState((state) => ({
             projects: [project, ...state.projects],

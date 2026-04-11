@@ -13,7 +13,7 @@ export const fetchRSSMentions = async (keyword: string, projectId: string) => {
     const cursor = await prisma.sourceCursor.findUnique({
         where: {
             source_keyword_projectId: {
-                source: "rss",
+                source: "RSS",
                 keyword,
                 projectId
             }
@@ -29,7 +29,7 @@ export const fetchRSSMentions = async (keyword: string, projectId: string) => {
             const mention = await prisma.mention.create({
                 data: {
                     ...mentionData,
-                    source: 'News',
+                    source: 'RSS',
                     content: mentionData?.content,
                     projectId
                 }
@@ -52,7 +52,7 @@ export const fetchRSSMentions = async (keyword: string, projectId: string) => {
         await prisma.sourceCursor.upsert({
             where: {
                 source_keyword_projectId: {
-                    source: "rss",
+                    source: "RSS",
                     keyword,
                     projectId
                 }
@@ -61,7 +61,7 @@ export const fetchRSSMentions = async (keyword: string, projectId: string) => {
                 lastSeen: latestDate
             },
             create: {
-                source: "rss",
+                source: "RSS",
                 keyword,
                 projectId,
                 lastSeen: latestDate
