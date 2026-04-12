@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import { AI_GEMINI } from "../utils/AI";
+import { AI_GEMINI, generateContent } from "../utils/AI";
 
 export const generateResponse = async (mentionId: string) => {
     const mention = await prisma.mention.findUnique({
@@ -38,20 +38,15 @@ export const generateResponse = async (mentionId: string) => {
         - Maximum 2 sentences
     `;
 
-    const response = await AI_GEMINI.models.generateContent({
-        model: 'gemini-3-flash-preview',
-        contents: prompt
-    });
+    const response = await generateContent(prompt, 'puter');
 
-    const text = response.text;
-
-    if(!text) return;
+    if(!response) return;
     
     await prisma.responseSuggestion.create({
         data: {
             mentionId,
             projectId: mention.projectId,
-            response: text,
+            response,
             tone: 'professional'
         }
     });

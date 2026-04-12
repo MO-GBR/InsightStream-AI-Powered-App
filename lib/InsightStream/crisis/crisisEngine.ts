@@ -1,5 +1,4 @@
 import { prisma } from "@/lib/prisma";
-import { emitEvent } from "../utils/workerUtils";
 
 export const detectCrisis = async (projectId: string) => {
     // Time window for crisis detection (e.g., last 24 hours)
@@ -30,6 +29,7 @@ export const detectCrisis = async (projectId: string) => {
     const negativeCount = analyses.filter(
         a => a.label === "Negative" || a.label === "Crisis"
     ).length;
+
     const crisisSignals = analyses.filter(a => a.isCrisis === true).length;
 
     // Rate

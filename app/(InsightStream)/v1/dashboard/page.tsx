@@ -9,10 +9,19 @@ import HeatmapCard from '@/components/InsightStream/Dashboard/HeatmapCard';
 import VibeCard from '@/components/InsightStream/Dashboard/VibeCard';
 import BriefingAudioPlayer from '@/components/InsightStream/Dashboard/BriefingAudioPlayer';
 import AllPluses from '@/components/InsightStream/Dashboard/AllPluses';
+import { prisma } from '@/lib/prisma';
+import { useProjectStore } from '@/lib/zustand/ProjectStore';
+import { scanRisk } from '@/lib/InsightStream/crisis/riskCrisis';
 
 const Dashboard = async () => {
     const session = await auth();
     if(!session?.user) redirect('/');
+
+    // const currentProjectId = useProjectStore.getState().currentProject?.id;
+
+    const Alert = await scanRisk();
+
+    console.log('Alert >>.>>', Alert);
 
     return (
         <div className='w-full'>

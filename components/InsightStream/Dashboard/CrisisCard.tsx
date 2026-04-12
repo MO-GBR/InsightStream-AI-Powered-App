@@ -3,7 +3,7 @@
 import React, { useEffect, useRef } from 'react'
 import gsap from "gsap"
 
-const CrisisCard = () => {
+const CrisisCard = ({  }: {  }) => {
     const cardRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {

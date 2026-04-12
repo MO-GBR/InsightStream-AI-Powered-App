@@ -6,6 +6,7 @@ export const useProjectStore = create<ProjectStore>((set) => ({
     currentProject: null,
 
     setProjects: (projects: ProjectType[]) => set({ projects }),
+    
     setCurrentProject: (project: ProjectType) => {
         localStorage.setItem("ProjectId", JSON.stringify(project.id));
         set({ currentProject: project })
@@ -22,7 +23,7 @@ export const useProjectStore = create<ProjectStore>((set) => ({
             const data = await response.json();
             set({
                 projects: data.projects,
-                currentProject: data.projects.find((p: ProjectType) => p.id === savedId) || null,
+                currentProject: data.projects.find((p: ProjectType) => p.id === savedId) || data.projects[0] || null,
             });
         } catch (error) {
             console.error("Error fetching projects:", error);

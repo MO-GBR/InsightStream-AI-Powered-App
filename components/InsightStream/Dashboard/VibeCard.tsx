@@ -16,7 +16,7 @@ const VibeTracker = () => {
     
         const step = width / (points.length - 1)
     
-        return points.map((p,i)=>{
+        return points.map((p,i) => {
             const x = i * step
             const y = height/2 - p * 60
             return `${i===0 ? "M":"L"} ${x} ${y}`

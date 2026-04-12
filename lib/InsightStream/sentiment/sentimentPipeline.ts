@@ -1,5 +1,5 @@
 import { prisma } from "../../prisma";
-import { AI_GEMINI } from "../utils/AI";
+import { AI_GEMINI, generateContent } from "../utils/AI";
 import { emitEvent } from "../utils/workerUtils";
 import { generateResponse } from "./responseGenerate";
 
@@ -23,12 +23,7 @@ export const runSentimentPipeline = async (mentionId: string) => {
         - isCrisis (true/false)
     `;
 
-    const response = await AI_GEMINI.models.generateContent({
-        model: 'gemini-3-flash-preview',
-        contents: prompt
-    });
-
-    const raw = response.text || '';
+    const raw = await generateContent(prompt, 'puter') || '';
     let data;
     try {
         data = JSON.parse(raw)
@@ -55,7 +50,7 @@ export const runSentimentPipeline = async (mentionId: string) => {
 
     emitEvent("SENTIMENT_ANALYZED", { mentionId, projectId: mention.projectId });
 
-    // if (analysis.label === 'Negative') await generateResponse(mention.id)
+    if (analysis.label === 'Negative') await generateResponse(mention.id)
 
-    return analysis;
+    // return analysis;
 };
