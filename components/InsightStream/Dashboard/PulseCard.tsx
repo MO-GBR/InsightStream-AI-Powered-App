@@ -2,25 +2,28 @@
 
 import React from 'react'
 
-import { useRef, useState } from "react"
+import { useRef, useState, useEffect } from "react"
 import gsap from "gsap"
 import { ProjectType } from '@/types';
 import { useProjectStore } from '@/lib/zustand/ProjectStore';
 
 const PulseCard = ({ project }: { project: ProjectType }) => {
     const cardRef = useRef<HTMLDivElement>(null);
-    // const [ isCurrent, setIsCurrent ] = useState(false);
+
+    const [ data, setData ] = useState([]);
 
     const isCurrent = project.id === useProjectStore.getState().currentProject?.id;
 
-    const { setCurrentProject, currentProject } = useProjectStore();
+    const { setCurrentProject } = useProjectStore();
 
-    console.log(
-        {
-            current: currentProject,
-            fetched: project
-        }
-    );
+    useEffect(() => {
+        fetch(`/api/mentions/${project.id}`)
+            .then(res => res.json())
+            .then(data => setData(data.mentions))
+            .catch(err => console.error("Error fetching mentions:", err));
+        
+        console.log('mentions data:', data);
+    }, []);
 
     const handleMove = (e: React.MouseEvent<HTMLDivElement>) => {
         const card = cardRef.current;
@@ -81,7 +84,7 @@ const PulseCard = ({ project }: { project: ProjectType }) => {
             </div>
 
             <div className="text-xs text-white/40 mt-1">
-                Mentions: 12.3k
+                Mentions: {data?.length}
             </div>
             {
                 isCurrent && (

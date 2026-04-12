@@ -27,3 +27,20 @@ export const apiFetcherWithRetries = async (
         }
     }
 };
+
+export const resolveApiUrl = (path: string) => {
+    if (typeof window !== "undefined") {
+        return path;
+    }
+
+    const appUrl = process.env.NEXT_PUBLIC_APP_URL
+        ?? process.env.NEXTAUTH_URL
+        ?? process.env.VERCEL_URL;
+
+    if (!appUrl) {
+        return `http://localhost:3000${path}`;
+    }
+
+    const origin = appUrl.startsWith("http") ? appUrl : `https://${appUrl}`;
+    return `${origin}${path}`;
+};

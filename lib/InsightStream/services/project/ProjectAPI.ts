@@ -1,10 +1,12 @@
-import { apiFetcher } from "@/lib/utils/API_Fetcher";
+import { apiFetcher, resolveApiUrl } from "@/lib/utils/API_Fetcher";
 import { useProjectStore } from "@/lib/zustand/ProjectStore";
 import { ProjectType } from "@/types";
 
+
+
 export const ProjectAPI = {
     getProjects: async () => {
-        const response = await fetch("/api/projects/get_all");
+        const response = await fetch(resolveApiUrl("/api/projects/get_all"));
         if (!response.ok) {
             throw new Error("Failed to fetch projects");
         };

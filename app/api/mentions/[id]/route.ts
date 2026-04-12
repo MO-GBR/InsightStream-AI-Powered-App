@@ -1,16 +1,15 @@
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
-export async function GET(req: Request) {
-    const { searchParams } = new URL(req.url);
-    const projectId = searchParams.get("projectId");
+export async function GET(req: Request, context: { params: Promise<{ id: string }> }) {
+    const { id } = context.params ? await context.params : { id: null };
 
-    if(!projectId) {
+    if(!id) {
         return NextResponse.json({ error: "Project ID is required" }, { status: 400 });
     };
 
     const mentions = await prisma.mention.findMany({
-        where: { projectId },
+        where: { projectId: id },
         orderBy: { createdAt: "desc" },
     });
 
