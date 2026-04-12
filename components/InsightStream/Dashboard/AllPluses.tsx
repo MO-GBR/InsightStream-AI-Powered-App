@@ -1,10 +1,10 @@
-'use client';
-import { useProjectStore } from '@/lib/zustand/ProjectStore';
 import React from 'react'
 import PulseCard from './PulseCard';
+import { ProjectAPI } from '@/lib/InsightStream/services/project/ProjectAPI';
 
-const AllPluses = () => {
-    const { projects } = useProjectStore();
+const AllPluses = async () => {
+    const projects = await ProjectAPI.getProjects();
+    
     return (
         <>
             {
