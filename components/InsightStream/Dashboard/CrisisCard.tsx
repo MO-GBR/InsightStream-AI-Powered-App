@@ -2,8 +2,9 @@
 
 import React, { useEffect, useRef } from 'react'
 import gsap from "gsap"
+import { useProjectStore } from '@/lib/zustand/ProjectStore';
 
-const CrisisCard = ({  }: {  }) => {
+const CrisisCard = () => {
     const cardRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {

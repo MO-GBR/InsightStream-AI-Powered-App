@@ -58,3 +58,16 @@ export type ProjectStore = {
 
     fetchProjects: () => Promise<void>;
 };
+
+export type ScannerType = {
+    risk: string;
+    message: string;
+    mentionsSpike: string;
+    topKeyword: string;
+};
+
+export type ScannerStore = {
+    Scanner: ScannerType | null;
+    Scan: (data: ScannerType) => void;
+    fetchScannerData: () => Promise<void>;
+};

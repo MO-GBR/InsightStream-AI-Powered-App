@@ -9,6 +9,8 @@ const CreatePluse = () => {
     const [ keyword, setKeyword ] = useState('');
     const [ brandVoice, setBrandVoice ] = useState('');
 
+    const { setCurrentProject } = useProjectStore();
+
     const handleSubmit = async (e: SubmitEvent) => {
         e.preventDefault();
         const project = await ProjectAPI.createProject({
@@ -34,8 +36,9 @@ const CreatePluse = () => {
 
         useProjectStore.setState((state) => ({
             projects: [project, ...state.projects],
-            currentProject: project,
         }));
+
+        setCurrentProject(project);
     }
     return (
         <form

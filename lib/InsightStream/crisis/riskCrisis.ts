@@ -1,11 +1,11 @@
 import { prisma } from "@/lib/prisma";
-import { useProjectStore } from "@/lib/zustand/ProjectStore";
 
 type RiskLevel = "LOW" | "MEDIUM" | "HIGH";
 
-const projectId = useProjectStore.getState().currentProject?.id;
-
-export const scanRisk = async () => {
+export const scanRisk = async (projectId: string) => {
+    if (!projectId) {
+        throw new Error("scanRisk requires a valid projectId");
+    }
     const now = new Date();
 
     const windowMs = 1000 * 60 * 15; // 15 minutes
