@@ -71,3 +71,15 @@ export type ScannerStore = {
     Scan: (data: ScannerType) => void;
     fetchScannerData: () => Promise<void>;
 };
+
+export type SentimentData = {
+    score: number;
+    sentiment: number;
+    label: string;
+    trend: "UP" | "DOWN" | "STABLE" | "stable";
+    distribution: {
+        positive: number;
+        neutral: number;
+        negative: number;
+    };
+};

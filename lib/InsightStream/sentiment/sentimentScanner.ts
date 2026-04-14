@@ -9,7 +9,7 @@ export const sentimentScanner = async (projectId: string) => {
     const currentSince = new Date(now.getTime() - windowMs);
     const previousSince = new Date(currentSince.getTime() - windowMs);
 
-  // 1) Fetch current
+    // 1) Fetch current
     const current = await prisma.analysis.findMany({
         where: {
             mention: {
@@ -19,7 +19,7 @@ export const sentimentScanner = async (projectId: string) => {
         }
     });
 
-  // 2) Fetch previous
+    // 2) Fetch previous
     const previous = await prisma.analysis.findMany({
         where: {
             mention: {
@@ -37,6 +37,7 @@ export const sentimentScanner = async (projectId: string) => {
             score: 50,
             label: "Neutral",
             trend: "stable",
+            sentiment: 0,
             distribution: {
                 positive: 0,
                 neutral: 100,
@@ -45,7 +46,7 @@ export const sentimentScanner = async (projectId: string) => {
         };
     }
 
-  // 3) Distribution
+    // 3) Distribution
     const counts = {
         positive: 0,
         neutral: 0,

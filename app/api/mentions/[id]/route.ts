@@ -1,3 +1,4 @@
+import { sentimentScanner } from "@/lib/InsightStream/sentiment/sentimentScanner";
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
@@ -13,5 +14,7 @@ export async function GET(req: Request, context: { params: Promise<{ id: string 
         orderBy: { createdAt: "desc" },
     });
 
-    return NextResponse.json({ mentions });
+    const sentiment = await sentimentScanner(id);
+
+    return NextResponse.json({ mentions, sentiment });
 };

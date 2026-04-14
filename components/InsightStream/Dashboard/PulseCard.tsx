@@ -4,13 +4,14 @@ import React from 'react'
 
 import { useRef, useState, useEffect } from "react"
 import gsap from "gsap"
-import { ProjectType } from '@/types';
+import { ProjectType, SentimentData } from '@/types';
 import { useProjectStore } from '@/lib/zustand/ProjectStore';
 
 const PulseCard = ({ project }: { project: ProjectType }) => {
     const cardRef = useRef<HTMLDivElement>(null);
 
-    const [ data, setData ] = useState([]);
+    const [data, setData] = useState<unknown[]>([]);
+    const [sentiment, setSentiment] = useState<SentimentData | null>(null);
 
     const isCurrent = project.id === useProjectStore.getState().currentProject?.id;
 
@@ -19,11 +20,14 @@ const PulseCard = ({ project }: { project: ProjectType }) => {
     useEffect(() => {
         fetch(`/api/mentions/${project.id}`)
             .then(res => res.json())
-            .then(data => setData(data.mentions))
+            .then(data => {
+                setData(data.mentions);
+                setSentiment(data.sentiment);
+            })
             .catch(err => console.error("Error fetching mentions:", err));
         
-        console.log('mentions data:', data);
-    }, []);
+        console.log('mentions data:', sentiment);
+    }, [project.id]);
 
     const handleMove = (e: React.MouseEvent<HTMLDivElement>) => {
         const card = cardRef.current;
@@ -74,7 +78,7 @@ const PulseCard = ({ project }: { project: ProjectType }) => {
         >
             <div className="flex justify-between items-start mb-4">
                 <span className="text-white/80 text-sm">{project.name}</span>
-                <span className="text-emerald-400 text-xs">+4%</span>
+                <span className="text-emerald-400 text-xs">{sentiment?.sentiment}</span>
             </div>
 
             <div className='spark-line my-2' />
