@@ -2,6 +2,7 @@
 
 import { ingestDocument } from '@/lib/InsightStream/knowledge/RAG';
 import { cn } from '@/lib/utils';
+import { apiFetcherWithRetries } from '@/lib/utils/API_Fetcher';
 import { useProjectStore } from '@/lib/zustand/ProjectStore';
 import React, { useEffect, useRef, useState } from 'react'
 
@@ -16,6 +17,8 @@ const VaultUpload = () => {
     const [file, setFile] = useState<File | null>(null);
     const [isDragging, setIsDragging] = useState(false);
     const [progress, setProgress] = useState(0);
+    const [isUploading, setIsUploading] = useState(false);
+    const [uploadError, setUploadError] = useState<string | null>(null);
 
     const { currentProject } = useProjectStore();
 
@@ -23,6 +26,7 @@ const VaultUpload = () => {
 
     const processFile = (selectedFile: File) => {
         setFile(selectedFile);
+        setUploadError(null);
         const reader = new FileReader();
 
         reader.onload = () => {
@@ -72,8 +76,31 @@ const VaultUpload = () => {
     };
 
     const handleUpload = async () => {
-        if (!file) return;
-        ingestDocument(file, currentProject?.id || '');
+        if (!file || !currentProject?.id) return;
+
+        const formData = new FormData();
+        formData.append('projectId', currentProject.id);
+        formData.append('file', file);
+
+        try {
+            setIsUploading(true);
+            setUploadError(null);
+
+            const data = await apiFetcherWithRetries('/api/knowledge/ingest', {
+                method: 'POST',
+                body: formData
+            });
+
+            console.log('Upload successful:', data);
+
+            setFile(null);
+            setProgress(0);
+        } catch (error) {
+            console.error('Error uploading file:', error);
+            setUploadError('Upload failed. Please try again.');
+        } finally {
+            setIsUploading(false);
+        }
     };
 
     if(!file) {
@@ -126,9 +153,12 @@ const VaultUpload = () => {
                                 <div>
                                     <p>File: {file.name}</p>
                                     <p>Size: {file.size}</p>
+                                    {uploadError && <p className='text-red-400 text-sm'>{uploadError}</p>}
                                     <div className='flex gap-2'>
                                         <button className='bg-gray-900 p-3 my-2' onClick={() => setFile(null)}>Remove File</button>
-                                        <button className='border p-3 my-2' onClick={handleUpload}>Confirm File</button>
+                                        <button className='border p-3 my-2 disabled:opacity-50' onClick={handleUpload}>
+                                            {isUploading ? 'Uploading...' : 'Confirm File'}
+                                        </button>
                                     </div>
                                 </div>
                             )
