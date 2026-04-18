@@ -1,6 +1,5 @@
 // AI - Gemini and Puter integration for content generation and sentiment analysis.
 import { GoogleGenAI } from "@google/genai";
-import { puter } from '@heyputer/puter.js'
 import OpenAI from "openai";
 
 // Load environment variables for API keys
@@ -42,11 +41,18 @@ export const generateContent = async (prompt: string, mode: string) => {
 };
 
 // Embedding Text using Puter's embedding API
-export const embedText = async (text: string) => {
-    const response = await AI_OPENAI.embeddings.create({
+export async function embedChunks(chunks: string[]) {
+    const embeddings = await AI_OPENAI.embeddings.create({
         model: "text-embedding-3-small",
-        input: text
+        input: chunks,
     });
-
-    return response.data[0].embedding;
+    return embeddings.data.map(e => e.embedding);
 };
+
+export async function embedQuery(query: string) {
+    const res = await AI_OPENAI.embeddings.create({
+        model: "text-embedding-3-small",
+        input: query,
+    });
+    return res.data[0].embedding;
+}

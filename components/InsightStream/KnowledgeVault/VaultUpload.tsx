@@ -1,7 +1,8 @@
 'use client';
 
-import { Document_RAG_Process } from '@/lib/InsightStream/knowledge/embedding_RAG';
+import { ingestDocument } from '@/lib/InsightStream/knowledge/RAG';
 import { cn } from '@/lib/utils';
+import { useProjectStore } from '@/lib/zustand/ProjectStore';
 import React, { useEffect, useRef, useState } from 'react'
 
 // Timing Constants (in milliseconds)
@@ -15,6 +16,8 @@ const VaultUpload = () => {
     const [file, setFile] = useState<File | null>(null);
     const [isDragging, setIsDragging] = useState(false);
     const [progress, setProgress] = useState(0);
+
+    const { currentProject } = useProjectStore();
 
     const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -70,14 +73,7 @@ const VaultUpload = () => {
 
     const handleUpload = async () => {
         if (!file) return;
-
-        const formData = new FormData();
-        formData.append("file", file);
-
-        await fetch("/api/knowledge/upload_file", {
-            method: "POST",
-            body: formData
-        });
+        ingestDocument(file, currentProject?.id || '');
     };
 
     if(!file) {

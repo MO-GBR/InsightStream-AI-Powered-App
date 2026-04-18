@@ -3,27 +3,25 @@ import React from 'react'
 
 interface AlertItemProps {
     message: string;
-    source: string;
-    severity: "INFO" | "WARNING" | "CRITICAL";
+    severity: string;
     time: string;
 }
   
 const severityIcon = {
-    INFO: "ℹ️",
-    WARNING: "⚠️",
-    CRITICAL: "🚨",
+    LOW: "ℹ️",
+    MEDIUM: "⚠️",
+    HIGH: "🚨",
 };
   
 const severityStyles = {
-    INFO: "text-blue-500",
-    WARNING: "text-yellow-500",
-    CRITICAL: "text-red-500",
+    LOW: "text-blue-500",
+    MEDIUM: "text-yellow-500",
+    HIGH: "text-red-500",
 };
 
 const AlertItem = ({
     message,
     severity,
-    source,
     time
 }: AlertItemProps) => {
     return (
@@ -31,12 +29,12 @@ const AlertItem = ({
             <div className={
                 cn(
                     'text-lg',
-                    severityStyles[severity]
+                    severityStyles[severity as keyof typeof severityStyles]
                 )
-            }>{severityIcon[severity]}</div>
+            }>{severityIcon[severity as keyof typeof severityIcon]}</div>
             <div className='flex flex-col flex-1'>
                 <span className='text-sm font-medium'>{message}</span>
-                <span className='text-xs text-muted-foreground'>Source: {source}</span>
+                <span className='text-xs text-muted-foreground'>Source: RSS(News) • Reddit • Reviews</span>
             </div>
             <div className='text-xs text-muted-foreground'>
                 {time}

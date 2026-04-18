@@ -1,6 +1,7 @@
 'use client';
 
 import { cn } from '@/lib/utils';
+import { AlertType } from '@/types';
 import gsap from 'gsap';
 import React, { useEffect, useRef } from 'react'
 
@@ -22,12 +23,13 @@ const riskStyles = {
 type RiskLevel = "LOW" | "MEDIUM" | "HIGH";
 
 interface CrisisStatusCardProps {
-    risk: RiskLevel;
-    spike: number;
+    risk: string;
+    spike: string;
+    message?: string;
 };
 
-const CrisisStatusCard = ({ risk, spike }: CrisisStatusCardProps) => {
-    const style = riskStyles[risk];
+const CrisisStatusCard = ({ risk, mentionsSpike, message }: AlertType) => {
+    const style = riskStyles[risk as RiskLevel]
 
     const cardRef = useRef<HTMLDivElement>(null);
 
@@ -70,17 +72,17 @@ const CrisisStatusCard = ({ risk, spike }: CrisisStatusCardProps) => {
             <p className="mt-4 text-muted-foreground">
                 Negative sentiment increased by{" "}
                 <span className="font-semibold">
-                    +{spike}%
+                    {mentionsSpike}
                 </span>{" "}
                 in the last 15 minutes.
             </p>
   
             <div className="mt-6 text-sm text-muted-foreground">
-                Sources: Twitter • Reddit • Reviews
+                Sources: RSS(News) • Reddit • Reviews
             </div>
 
             <div className="mt-4 text-xs text-muted-foreground">
-                Last scan: 2 seconds ago
+                Last scan: 30 minutes ago
             </div>
         </div>
     )

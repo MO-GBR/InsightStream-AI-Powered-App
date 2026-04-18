@@ -3,8 +3,9 @@
 import React, { useEffect, useRef } from 'react'
 import gsap from "gsap"
 import { useProjectStore } from '@/lib/zustand/ProjectStore';
+import { AlertType } from '@/types';
 
-const CrisisCard = () => {
+const CrisisCard = ({ mentionsSpike, topKeyword }: AlertType) => {
     const cardRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -27,10 +28,10 @@ const CrisisCard = () => {
                 Top keyword:
             </p>
             <p className="text-sm text-white border border-red-700 rounded-[10px] w-fit m-1 p-2">
-                battery overheating
+                {topKeyword}
             </p>
             <p className="text-xs text-white/40 mt-4">
-                Mentions spike: +340%
+                Mentions spike: {mentionsSpike}
             </p>
         </div>
     )

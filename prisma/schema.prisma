@@ -166,8 +166,7 @@ model BrandVoice {
 
 model ConversationMemory {
   id          String   @id @default(uuid())
-
-  mentionId   String
+  
   projectId   String
 
   input       String   @db.Text

@@ -26,7 +26,7 @@ const PulseCard = ({ project }: { project: ProjectType }) => {
             })
             .catch(err => console.error("Error fetching mentions:", err));
         
-        console.log('mentions data:', sentiment);
+        console.log('Sentiment data:', sentiment);
     }, [project.id]);
 
     const handleMove = (e: React.MouseEvent<HTMLDivElement>) => {

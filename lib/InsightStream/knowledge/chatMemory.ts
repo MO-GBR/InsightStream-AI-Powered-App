@@ -1,4 +1,4 @@
-import {prisma} from "@/lib/prisma";
+import { prisma } from "@/lib/prisma";
 
 export const retrieveMemory = async (projectId: string) => {
 
@@ -10,5 +10,15 @@ export const retrieveMemory = async (projectId: string) => {
 
     return memories
         .map(m => `User: ${m.input}\nAI: ${m.response}`)
-        .join("\n");
-}
+        .join("\n\n");
+};
+
+export const saveMemory = async (projectId: string, input: string, response: string) => {
+    await prisma.conversationMemory.create({
+        data: {
+            projectId,
+            input,
+            response
+        }
+    });
+};

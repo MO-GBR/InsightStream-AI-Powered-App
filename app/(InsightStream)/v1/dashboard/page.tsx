@@ -40,7 +40,9 @@ const Dashboard = async () => {
                 <HeatmapCard />
                 <VibeCard />
                 <AddPluse />
-                <CrisisCard />
+                {
+                    Alert.risk !== "LOW" && <CrisisCard mentionsSpike={Alert.mentionsSpike} topKeyword={Alert.topKeyword} /> 
+                }
                 <AllPluses />
             </div>
         </div>

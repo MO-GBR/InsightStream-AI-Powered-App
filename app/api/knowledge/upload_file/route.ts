@@ -1,4 +1,4 @@
-import { Document_RAG_Process } from '@/lib/InsightStream/knowledge/embedding_RAG';
+import { ingestDocument } from '@/lib/InsightStream/knowledge/RAG';
 import { NextResponse } from 'next/server';
 
 export async function POST(req: Request) {
@@ -12,7 +12,7 @@ export async function POST(req: Request) {
                 { status: 400 }
             );
         }
-        await Document_RAG_Process(file)
+        await ingestDocument(file)
         return NextResponse.json({ success: true, name: file.name }, { status: 200 });
     } catch (error) {
         console.log('Error >>>>>', error);

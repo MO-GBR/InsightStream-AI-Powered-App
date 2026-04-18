@@ -1,22 +1,22 @@
 import { prisma } from "@/lib/prisma";
-import { embedText } from "./embedding_RAG";
 import { ChunckType } from "@/types";
 
-export const similaritySearch = async (embedding: number[] | any) => {
-    const result = await prisma.$queryRawUnsafe<ChunckType[]>(`
-        SELECT content
-        FROM "Chunk"
-        ORDER BY embedding <-> $1
-        LIMIT 5
-    `, embedding);
-
-    return result;
-};
-
-export const Retrieve_Context = async (query: string) => {
-    const queryEmbedding = await embedText(query);
-
-    const chuncks = await similaritySearch(queryEmbedding)
-
-    return chuncks.map(c => c.content).join("\n");
+export const vectorSearch = async ({
+    queryEmbedding,
+    projectId,
+    topK = 5,
+}: {
+    queryEmbedding: number[];
+    projectId: string;
+    topK?: number;
+}) => {
+    const result = await prisma.$queryRawUnsafe(`
+        SELECT c.*
+        FROM "Chunk" c
+        JOIN "Document" d ON c."docId" = d.id
+        WHERE d."projectId" = '${projectId}'
+        ORDER BY c.embedding <-> '[${queryEmbedding.join(",")}]'
+        LIMIT ${topK};
+    `);
+    return result as { content: string }[];
 };

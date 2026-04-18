@@ -7,16 +7,22 @@ export const removeExtension = (filename: string) => {
     return filename.slice(0, lastDotIndex);
 }
 
-export const chunkText = (text: string, chunkSize = 500) => {
-    const words = text.split(" ");
+export function chunkText(text: string, chunkSize = 700, overlap = 150) {
     const chunks: string[] = [];
-
-    for (let i = 0; i < words.length; i += chunkSize) {
-        chunks.push(words.slice(i, i + chunkSize).join(" "));
+  
+    let start = 0;
+  
+    while (start < text.length) {
+        const end = start + chunkSize;
+        const chunk = text.slice(start, end);
+  
+        chunks.push(chunk);
+  
+        start += chunkSize - overlap;
     }
-
+  
     return chunks;
-};
+}
 
 export const fileToBuffer = async (file: any): Promise<Buffer> => {
     if (file.size > 5_000_000) throw new Error("File too large");
@@ -44,4 +50,12 @@ export const extractText = async (file: File) => {
         .replace(/\n{3,}/g, "\n\n")
         .replace(/[ \t]{2,}/g, " ")
         .trim();;
+};
+
+export const fileType = (type: string) => {
+    const documentTypes: string[] = ['application/pdf', 'text/plain', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+    if(!documentTypes.includes(type)) throw new Error('Invalid document type');
+    if(type === 'application/pdf') return 'PDF';
+    if(type === 'text/plain') return 'TXT';
+    if(type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') return 'DOCX';
 };
