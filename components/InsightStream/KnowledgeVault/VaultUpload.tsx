@@ -1,10 +1,9 @@
 'use client';
 
-import { ingestDocument } from '@/lib/InsightStream/knowledge/RAG';
 import { cn } from '@/lib/utils';
 import { apiFetcherWithRetries } from '@/lib/utils/API_Fetcher';
 import { useProjectStore } from '@/lib/zustand/ProjectStore';
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 
 // Timing Constants (in milliseconds)
 const SHARE_STATUS_RESET_DELAY_MS = 1500;
@@ -76,6 +75,7 @@ const VaultUpload = () => {
     };
 
     const handleUpload = async () => {
+        console.log('Starting upload for file:', file, 'to project:', currentProject);
         if (!file || !currentProject?.id) return;
 
         const formData = new FormData();

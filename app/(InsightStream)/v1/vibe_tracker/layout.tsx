@@ -3,7 +3,7 @@
 import { useProjectStore } from "@/lib/zustand/ProjectStore";
 import { useEffect } from "react";
 
-export default function DashboardLayout(
+export default function VibeTrackerLayout(
     { children }: { children: React.ReactNode }
 ) {
     const { fetchProjects } = useProjectStore();

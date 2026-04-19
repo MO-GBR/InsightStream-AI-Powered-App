@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { ProjectType, ProjectStore } from "@/types";
+import { apiFetcherWithRetries } from "../utils/API_Fetcher";
 
 const normalizeProjectId = (value: string | null) => {
     if (!value) return null;
@@ -22,11 +23,7 @@ export const useProjectStore = create<ProjectStore>((set) => ({
         try {
             const savedId = normalizeProjectId(localStorage.getItem("ProjectId"));
 
-            const response = await fetch("/api/projects/get_all");
-            if (!response.ok) {
-                throw new Error("Failed to fetch projects");
-            }
-            const data = await response.json();
+            const data = await apiFetcherWithRetries("/api/projects/get_all");
             set({
                 projects: data.projects,
                 currentProject: data.projects.find((p: ProjectType) => p.id === savedId) || data.projects[0] || null,
