@@ -24,13 +24,19 @@ export const ingestDocument = async (file: File, projectId: string) => {
     const embeddings = await geminiEmbedChunks(chuncks);
 
 
-    await prisma.chunk.createMany({
-        data: chuncks.map((chunk, index) => ({
-            content: chunk,
-            docId: document.id,
-            embedding: embeddings[index]
-        }))
-    });
+    await prisma.$transaction(
+        chuncks.map((chunk, index) => {
+            const embedding = embeddings[index].values;
+            if (!embedding) {
+                throw new Error(`Missing embedding for chunk index ${index}`);
+            }
+            const embeddingLiteral = `[${embedding.join(',')}]`;
+            return prisma.$executeRaw`
+                INSERT INTO "Chunk" ("content", "docId", "embedding")
+                VALUES (${chunk}, ${document.id}, ${embeddingLiteral}::vector)
+            `;
+        })
+    );
 
     return document.id;
 };
