@@ -1,7 +1,7 @@
 'use client';
 
 import { cn } from '@/lib/utils';
-import { apiFetcherWithRetries } from '@/lib/utils/API_Fetcher';
+import { apiFetcherWithRetries, apiFetcher } from '@/lib/utils/API_Fetcher';
 import { useProjectStore } from '@/lib/zustand/ProjectStore';
 import React, { useRef, useState } from 'react'
 
@@ -86,7 +86,7 @@ const VaultUpload = () => {
             setIsUploading(true);
             setUploadError(null);
 
-            const data = await apiFetcherWithRetries('/api/knowledge/ingest', {
+            const data = await apiFetcher('/api/knowledge/ingest', {
                 method: 'POST',
                 body: formData
             });
@@ -102,6 +102,8 @@ const VaultUpload = () => {
             setIsUploading(false);
         }
     };
+
+    const size = file ? (file.size / (1024 * 1024)).toFixed(2) + ' MB' : null;
 
     if(!file) {
         return (
@@ -152,7 +154,7 @@ const VaultUpload = () => {
                             : progress === 100 && (
                                 <div>
                                     <p>File: {file.name}</p>
-                                    <p>Size: {file.size}</p>
+                                    <p>Size: {size}</p>
                                     {uploadError && <p className='text-red-400 text-sm'>{uploadError}</p>}
                                     <div className='flex gap-2'>
                                         <button className='bg-gray-900 p-3 my-2' onClick={() => setFile(null)}>Remove File</button>

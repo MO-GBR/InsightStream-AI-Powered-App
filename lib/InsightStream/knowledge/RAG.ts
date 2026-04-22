@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { extractText, chunkText, fileType, removeExtension } from "../utils/text_utils";
-import { embedChunks, generateContent } from "../utils/AI";
+import { embedChunks, generateContent, geminiEmbedChunks } from "../utils/AI";
 import { promptBuilder } from "./prompt";
 
 export const ingestDocument = async (file: File, projectId: string) => {
@@ -20,7 +20,9 @@ export const ingestDocument = async (file: File, projectId: string) => {
         }
     });
 
-    const embeddings = await embedChunks(chuncks);
+    // const embeddings = await embedChunks(chuncks);
+    const embeddings = await geminiEmbedChunks(chuncks);
+
 
     await prisma.chunk.createMany({
         data: chuncks.map((chunk, index) => ({
