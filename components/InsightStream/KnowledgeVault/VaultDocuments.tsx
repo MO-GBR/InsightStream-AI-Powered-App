@@ -1,21 +1,37 @@
+import { auth } from '@/lib/auth';
+import { convertDate } from '@/lib/InsightStream/utils/Date';
+import { prisma } from '@/lib/prisma';
 import React from 'react'
+import { cookies } from 'next/headers';
 
-const documents = [
+const docs = [
     {
         id: 1,
-        name: "brand_voice.pdf",
+        fileName: "brand_voice.pdf",
         type: "PDF",
-        uploaded: "2 hours ago",
+        createdAt: "2 hours ago",
     },
     {
         id: 2,
-        name: "support_playbook.pdf",
+        fileName: "support_playbook.pdf",
         type: "PDF",
-        uploaded: "Yesterday",
+        createdAt: "Yesterday",
     },
 ];
 
-const VaultDocuments = () => {
+const VaultDocuments = async () => {
+    const session = await auth();
+
+    const documents = await prisma.document.findMany({
+        where: {
+            project: {
+                userId: session?.user?.id
+            }
+        },
+        orderBy: {
+            createdAt: 'desc'
+        }
+    });
     return (
         <div className='rounded-xl border p-6'>
             <h3 className='mb-4 font-semibold'>
@@ -33,9 +49,9 @@ const VaultDocuments = () => {
                     {
                         documents.map((doc) => (
                             <tr key={doc.id} className='border-t'>
-                                <th className='py-2 text-left'>{doc.name}</th>
+                                <th className='py-2 text-left'>{doc.fileName}</th>
                                 <th className='text-left'>{doc.type}</th>
-                                <th className='text-left'>{doc.uploaded}</th>
+                                <th className='text-left'>{convertDate(doc.createdAt)}</th>
                             </tr>
                         ))
                     }

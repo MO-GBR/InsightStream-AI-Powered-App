@@ -1,6 +1,6 @@
 import React from 'react'
 
-const status = [
+const fakeStatus = [
     {
         status: '😊 Positive',
         num: 68
@@ -15,7 +15,27 @@ const status = [
     },
 ];
 
-const LiveSentimentCard = () => {
+type distribution =  {
+    positive: number;
+    neutral: number;
+    negative: number;
+}
+
+const LiveSentimentCard = ({ data }: { data: distribution }) => {
+    const status = [
+        {
+            status: '😊 Positive',
+            num: data.positive
+        },
+        {
+            status: '😐 Neutral',
+            num: data.neutral
+        },
+        {
+            status: '😡 Negative',
+            num: data.negative
+        },
+    ];
     return (
         <div className='card'>
             <h3 className="font-semibold mb-4">

@@ -29,7 +29,7 @@ export const generateContent = async (prompt: string, mode: string) => {
         return response.text;
     }
 
-    if(mode === 'puter') {
+    if(mode === 'openai') {
         const response = await AI_OPENAI.chat.completions.create({
             model: "gpt-4o",
             messages: [
@@ -38,6 +38,11 @@ export const generateContent = async (prompt: string, mode: string) => {
             ]
         });
         return response.choices[0].message.content;
+    }
+
+    if(mode === 'puter') {
+        const response = await puter.ai.chat(prompt);
+        return response.message?.content;
     }
 };
 

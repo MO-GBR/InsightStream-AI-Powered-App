@@ -63,7 +63,7 @@ export default function BriefingAudioPlayer({ audioUrl }: { audioUrl: string }) 
     };
 
     return (
-    <div className="w-full max-w-2xl mx-auto bg-[#3d3d3d] rounded-2xl shadow col-span-2 p-4 space-y-4">
+    <div className="w-full max-w-2xl mx-auto bg-[#3d3d3d] rounded-2xl shadow p-4 space-y-4">
         <div ref={waveformRef} className="w-full" />
 
         <div className="flex items-center justify-between">

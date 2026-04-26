@@ -19,8 +19,7 @@ export const ingestDocument = async (file: File, projectId: string) => {
             type: fileType(file.type) as string
         }
     });
-
-    // const embeddings = await embedChunks(chuncks);
+    
     const embeddings = await geminiEmbedChunks(chuncks);
 
 
@@ -30,10 +29,11 @@ export const ingestDocument = async (file: File, projectId: string) => {
             if (!embedding) {
                 throw new Error(`Missing embedding for chunk index ${index}`);
             }
+            const randomId = crypto.randomUUID();
             const embeddingLiteral = `[${embedding.join(',')}]`;
             return prisma.$executeRaw`
-                INSERT INTO "Chunk" ("content", "docId", "embedding")
-                VALUES (${chunk}, ${document.id}, ${embeddingLiteral}::vector)
+                INSERT INTO "Chunk" ("id", "content", "docId", "embedding")
+                VALUES (${randomId}, ${chunk}, ${document.id}, ${embeddingLiteral}::vector)
             `;
         })
     );

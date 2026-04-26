@@ -4,12 +4,18 @@ import MentionRateCard from '@/components/InsightStream/VibeTracker/MentionRateC
 import SentimentPulseChart from '@/components/InsightStream/VibeTracker/SentimentPulseChart'
 import SentimentStream from '@/components/InsightStream/VibeTracker/SentimentStream'
 import React from 'react'
+import { cookies } from 'next/headers';
+import { sentimentScanner } from '@/lib/InsightStream/sentiment/sentimentScanner'
 
-const VibeTrackerPage = () => {
+const VibeTrackerPage = async () => {
+    const cookieStore = await cookies();
+    const selectedProjectId = cookieStore.get('currentProjectId')?.value;
+    const projectData = await sentimentScanner(selectedProjectId!);
+    
     return (
         <div className="grid grid-cols-12 gap-6">
             <div className="col-span-6">
-                <LiveSentimentCard />
+                <LiveSentimentCard data={projectData.distribution} />
             </div>
             <div className="col-span-6">
                 <MentionRateCard />

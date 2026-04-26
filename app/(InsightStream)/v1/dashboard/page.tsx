@@ -12,6 +12,7 @@ import BriefingAudioPlayer from '@/components/InsightStream/Dashboard/BriefingAu
 import AllPluses from '@/components/InsightStream/Dashboard/AllPluses';
 import { prisma } from '@/lib/prisma';
 import { scanRisk } from '@/lib/InsightStream/crisis/riskCrisis';
+import BriefingAudio from '@/components/InsightStream/Dashboard/BriefingAudio';
 
 const Dashboard = async () => {
     const session = await auth();
@@ -36,7 +37,7 @@ const Dashboard = async () => {
         <div className='w-full'>
             <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 w-full p-5'>
                 <SummaryCard />
-                <BriefingAudioPlayer audioUrl='/censor-beep-1-372459.mp3' />
+                <BriefingAudio />
                 <HeatmapCard />
                 <VibeCard />
                 <AddPluse />
