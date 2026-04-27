@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import { AI_GEMINI } from "../utils/AI";
+import { generateContent } from "../utils/AI";
 
 export const generateBriefingText = async (projectId: string) => {
     const mentions = await prisma.mention.findMany({
@@ -26,10 +26,7 @@ export const generateBriefingText = async (projectId: string) => {
         4. Recommended actions
     `;
 
-    const response = await AI_GEMINI.models.generateContent({
-        model: "gemini-3-flash-preview",
-        contents: prompt
-    });
+    const response = await generateContent(prompt, 'puter');
 
-    return response.text;
+    return response?.toString();
 };

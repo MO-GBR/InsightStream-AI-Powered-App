@@ -1,7 +1,8 @@
 // import { runCrisisWorker } from "@/lib/InsightStream/workers/crisisWorker";
 // import { runIngestionWorker } from "../lib/InsightStream/workers/ingestionWorker";
 // import { runAIWorker } from "@/lib/InsightStream/workers/AIWorker";
-import { runBriefing } from "@/lib/InsightStream/workers/voiceBriefingWorker";
+
+import { briefingWorker } from "@/lib/InsightStream/workers/briefingWorker";
 
 // // Ingestion = Reddit and RSS feed scraping.
 // runIngestionWorker().then(() => {
@@ -30,7 +31,7 @@ import { runBriefing } from "@/lib/InsightStream/workers/voiceBriefingWorker";
 //     process.exit(1);
 // });
 
-runBriefing().then(() => {
+briefingWorker().then(() => {
     console.log('AI worker completed');
     process.exit(0);
 }).catch((error) => {
