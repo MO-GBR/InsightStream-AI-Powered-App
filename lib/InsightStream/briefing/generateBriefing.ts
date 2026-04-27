@@ -2,12 +2,13 @@ import { prisma } from "@/lib/prisma";
 import { generateContent } from "../utils/AI";
 
 export const generateBriefingText = async (projectId: string) => {
+    console.log('id ...', projectId)
     const mentions = await prisma.mention.findMany({
         where: {
             projectId,
-            createdAt: {
-                gte: new Date(Date.now() - 24 * 60 * 60 * 1000)
-            }
+            // createdAt: {
+            //     gte: new Date(Date.now() - 24 * 60 * 60 * 1000)
+            // }
         },
         orderBy: {
             createdAt: 'desc'
@@ -26,7 +27,7 @@ export const generateBriefingText = async (projectId: string) => {
         4. Recommended actions
     `;
 
-    const response = await generateContent(prompt, 'puter');
+    const response = await generateContent(prompt, 'openai');
 
     return response?.toString();
 };

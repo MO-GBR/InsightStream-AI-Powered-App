@@ -5,15 +5,11 @@ import { emitEvent } from "../utils/workerUtils";
 
 export const briefingWorker = async () => {
     try {
-        const session = await auth();
-        const projects = await prisma.project.findMany({
-            where: {
-                userId: session?.user?.id
-            }
-        });
+        const projects = await prisma.project.findMany();
 
         for (const project of projects) {
             const briefing = await createBriefing(project.id);
+
             await emitEvent('BRIEFING_CREATE', {
                 id: briefing.id,
                 audioUrl: briefing.audioUrl
@@ -21,5 +17,6 @@ export const briefingWorker = async () => {
         };
     } catch (error) {
         console.log('AI Briefing Error', error);
+        throw error;
     }
 };

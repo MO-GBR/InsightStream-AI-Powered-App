@@ -1,13 +1,18 @@
-import { supabase } from "@/lib/supabase/client";
+import { createClient } from "@/lib/supabase/server";
+import { apiFetcherWithRetries } from "@/lib/utils/API_Fetcher";
+
 
 const uploadAudio = async (
     audioBuffer: ArrayBuffer,
     projectId: string,
     briefingId: string
 ): Promise<string> => {
+
+    const supabase = await createClient();
+
     const filePath = `${projectId}/${briefingId}.mp3`;
 
-    const { error } = await supabase().storage.from("Audios").upload(filePath, new Blob([audioBuffer]), {
+    const { error } = await supabase.storage.from("Audios").upload(filePath, new Blob([audioBuffer]), {
         contentType: "audio/mpeg",
         upsert: true,
     });
@@ -17,13 +22,13 @@ const uploadAudio = async (
         throw new Error("Failed to upload audio");
     };
 
-    const { data: { publicUrl } } = supabase().storage.from("Audios").getPublicUrl(filePath);
+    const { data: { publicUrl } } = supabase.storage.from("Audios").getPublicUrl(filePath);
 
     return publicUrl;
 };
 
 export const generateBriefingAudio = async (text: string) => {
-    const response = await fetch("https://api.elevenlabs.io/v1/text-to-speech/voice-id", {
+    const response = await apiFetcherWithRetries("https://api.elevenlabs.io/v1/text-to-speech/voice-id", {
         method: "POST",
         headers: {
             "xi-api-key": process.env.ELEVENLABS_API_KEY!,
