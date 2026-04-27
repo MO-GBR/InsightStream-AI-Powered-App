@@ -7,7 +7,7 @@ export const createBriefing = async (projectId: string) => {
 
     if (!summary) throw new Error("Briefing generation failed: empty summary");
 
-    const audioUrl = await generateBriefingAudio(summary);
+    const audioUrl = await generateBriefingAudio(summary, projectId);
 
     const briefing = await prisma.briefing.create({
         data: {

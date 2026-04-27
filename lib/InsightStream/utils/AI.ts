@@ -20,29 +20,33 @@ export const AI_GEMINI = new GoogleGenAI({
 
 // Function to generate content based on the provided prompt and mode (either 'gemini' or 'puter')
 export const generateContent = async (prompt: string, mode: string) => {
-    if(mode === 'gemini') {
-        const response = await AI_GEMINI.models.generateContent({
-            model: 'gemini-3-flash-preview',
-            contents: prompt
-        });
+    try {
+        if(mode === 'gemini') {
+            const response = await AI_GEMINI.models.generateContent({
+                model: 'gemini-3-flash-preview',
+                contents: prompt
+            });
+        
+            return response.text;
+        }
     
-        return response.text;
-    }
-
-    if(mode === 'openai') {
-        const response = await AI_OPENAI.chat.completions.create({
-            model: "gpt-4o",
-            messages: [
-                { role: "system", content: "You are a helpful assistant for brand monitoring and sentiment analysis." },
-                { role: "user", content: prompt }
-            ]
-        });
-        return response.choices[0].message.content;
-    }
-
-    if(mode === 'puter') {
-        const response = await puter.ai.chat(prompt);
-        return response.message?.content;
+        if(mode === 'openai') {
+            const response = await AI_OPENAI.chat.completions.create({
+                model: "gpt-4o",
+                messages: [
+                    { role: "system", content: "You are a helpful assistant for brand monitoring and sentiment analysis." },
+                    { role: "user", content: prompt }
+                ]
+            });
+            return response.choices[0].message.content;
+        }
+    
+        if(mode === 'puter') {
+            const response = await puter.ai.chat(prompt);
+            return response;
+        }
+    } catch (error) {
+        console.error('AI Error:', error);
     }
 };
 

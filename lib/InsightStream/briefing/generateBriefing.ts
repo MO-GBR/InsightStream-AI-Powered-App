@@ -27,7 +27,9 @@ export const generateBriefingText = async (projectId: string) => {
         4. Recommended actions
     `;
 
-    const response = await generateContent(prompt, 'openai');
+    const response = await generateContent(prompt, 'gemini');
+
+    console.log('res ///', response?.toString())
 
     return response?.toString();
 };

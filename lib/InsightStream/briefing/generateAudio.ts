@@ -27,7 +27,7 @@ const uploadAudio = async (
     return publicUrl;
 };
 
-export const generateBriefingAudio = async (text: string) => {
+export const generateBriefingAudio = async (text: string, projectId: string) => {
     const response = await apiFetcherWithRetries("https://api.elevenlabs.io/v1/text-to-speech/voice-id", {
         method: "POST",
         headers: {
@@ -41,7 +41,6 @@ export const generateBriefingAudio = async (text: string) => {
     });
   
     const audioBuffer = await response.arrayBuffer();
-    const projectId = "your-project-id"; // Replace with actual project ID
     const briefingId = crypto.randomUUID(); // Replace with actual briefing ID
   
     // Upload to storage (Supabase / S3)
