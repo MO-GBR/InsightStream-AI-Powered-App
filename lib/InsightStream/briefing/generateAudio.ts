@@ -1,28 +1,15 @@
-import { createClient } from "@supabase/supabase-js";
+import { supabase } from "@/lib/supabase/client";
 import { apiFetcherWithRetries } from "@/lib/utils/API_Fetcher";
-
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseKey =
-    process.env.SUPABASE_SERVICE_ROLE_KEY ??
-    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
-
+supabase
 
 const uploadAudio = async (
     audioBuffer: ArrayBuffer,
     projectId: string,
     briefingId: string
 ): Promise<string> => {
-
-    if (!supabaseUrl || !supabaseKey) {
-        throw new Error("Supabase credentials are missing for briefing audio upload.");
-    }
-
-    const supabase = createClient(supabaseUrl, supabaseKey);
-
     const filePath = `${projectId}/${briefingId}.mp3`;
 
-    const { error } = await supabase.storage.from("Audios").upload(filePath, new Blob([audioBuffer]), {
+    const { error } = await supabase().storage.from("Audios").upload(filePath, new Blob([audioBuffer]), {
         contentType: "audio/mpeg",
         upsert: true,
     });
@@ -32,7 +19,7 @@ const uploadAudio = async (
         throw new Error("Failed to upload audio");
     };
 
-    const { data: { publicUrl } } = supabase.storage.from("Audios").getPublicUrl(filePath);
+    const { data: { publicUrl } } = supabase().storage.from("Audios").getPublicUrl(filePath);
 
     return publicUrl;
 };
