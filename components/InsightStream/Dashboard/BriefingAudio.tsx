@@ -7,16 +7,15 @@ const BriefingAudio = async () => {
     const cookieStore = await cookies();
     const selectedProjectId = cookieStore.get('currentProjectId')?.value;
 
-    let fetchAudioUrl: { briefing?: { audioUrl?: string } } | null = null;
+    let fetchBriefing: { briefing?: { audioUrl?: string } } | null = null;
 
     if (selectedProjectId) {
         try {
-            fetchAudioUrl = await apiFetcherWithRetries(`/api/briefing/latest/${selectedProjectId}`);
+            fetchBriefing = await apiFetcherWithRetries(`/api/briefing/latest/${selectedProjectId}`);
         } catch {
-            fetchAudioUrl = null;
+            fetchBriefing = null;
         }
     }
-
 
     return (
         <div className='col-span-2'>
@@ -25,8 +24,8 @@ const BriefingAudio = async () => {
             </h3>
 
             {
-                fetchAudioUrl?.briefing?.audioUrl ? (
-                    <BriefingAudioPlayer audioUrl={fetchAudioUrl.briefing.audioUrl} />
+                fetchBriefing?.briefing?.audioUrl ? (
+                    <BriefingAudioPlayer audioUrl={fetchBriefing?.briefing?.audioUrl} />
                 ) : (
                     <p className='text-sm text-gray-500'>No briefing audio available.</p>
                 )
