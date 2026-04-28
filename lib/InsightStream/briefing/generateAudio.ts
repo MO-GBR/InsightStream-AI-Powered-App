@@ -30,20 +30,35 @@ const uploadAudio = async (
 };
 
 export const generateBriefingAudio = async (text: string, projectId: string) => {
-    const response = await fetch("https://api.elevenlabs.io/v1/text-to-speech/voice-id", {
-        method: "POST",
-        headers: {
-            "xi-api-key": process.env.ELEVENLABS_API_KEY!,
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            text,
-            model_id: "eleven_multilingual_v2"
-        })
-    });
+    const response = await fetch(
+        "https://api.elevenlabs.io/v1/text-to-speech/pNInz6obpgDQGcFmaJgB",
+        {
+            method: "POST",
+            headers: {
+                "xi-api-key": process.env.ELEVENLABS_API_KEY!,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                text: text,
+                model_id: "eleven_multilingual_v2",
+                voice_settings: {
+                    stability: 0.75,
+                    similarity_boost: 0.85,
+                    style: 0.4,
+                    use_speaker_boost: true
+                }
+            })
+        }
+    );
+  
+    if (!response.ok) {
+        throw new Error("TTS request failed");
+    }
   
     const audioBuffer = await response.arrayBuffer();
     const briefingId = crypto.randomUUID(); // Replace with actual briefing ID
+
+    console.log('res ....', response.ok);
   
     // Upload to storage (Supabase / S3)
     const url = await uploadAudio(audioBuffer, projectId, briefingId);
