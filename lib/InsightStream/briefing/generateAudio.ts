@@ -1,6 +1,9 @@
-import { supabase } from "@/lib/supabase/client";
-import { apiFetcherWithRetries } from "@/lib/utils/API_Fetcher";
-supabase
+import { createClient } from "@supabase/supabase-js";
+
+const supabaseAdmin = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!,
+);
 
 const uploadAudio = async (
     audioBuffer: ArrayBuffer,
@@ -9,7 +12,7 @@ const uploadAudio = async (
 ): Promise<string> => {
     const filePath = `${projectId}/${briefingId}.mp3`;
 
-    const { error } = await supabase().storage.from("Audios").upload(filePath, new Blob([audioBuffer]), {
+    const { error } = await supabaseAdmin.storage.from("Audios").upload(filePath, Buffer.from(audioBuffer), {
         contentType: "audio/mpeg",
         upsert: true,
     });
@@ -19,7 +22,9 @@ const uploadAudio = async (
         throw new Error("Failed to upload audio");
     };
 
-    const { data: { publicUrl } } = supabase().storage.from("Audios").getPublicUrl(filePath);
+    const {
+        data: { publicUrl },
+    } = supabaseAdmin.storage.from("Audios").getPublicUrl(filePath);
 
     return publicUrl;
 };
