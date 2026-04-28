@@ -1,7 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { apiFetcherWithRetries } from "@/lib/utils/API_Fetcher";
 
-
 const uploadAudio = async (
     audioBuffer: ArrayBuffer,
     projectId: string,
@@ -28,7 +27,7 @@ const uploadAudio = async (
 };
 
 export const generateBriefingAudio = async (text: string, projectId: string) => {
-    const response = await apiFetcherWithRetries("https://api.elevenlabs.io/v1/text-to-speech/voice-id", {
+    const response = await fetch("https://api.elevenlabs.io/v1/text-to-speech/voice-id", {
         method: "POST",
         headers: {
             "xi-api-key": process.env.ELEVENLABS_API_KEY!,

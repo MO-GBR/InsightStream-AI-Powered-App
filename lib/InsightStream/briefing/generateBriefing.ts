@@ -29,7 +29,5 @@ export const generateBriefingText = async (projectId: string) => {
 
     const response = await generateContent(prompt, 'gemini');
 
-    console.log('res ///', response?.toString())
-
     return response?.toString();
 };
