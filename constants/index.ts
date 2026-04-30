@@ -81,6 +81,7 @@ export const UpcomingFeatures: { feature: string; about: string }[] = [
 
 export const InsightStreamLinks: NavLink[] = [
     { name: "Dashboard", href: "/v1/dashboard" },
+    { name: "Chat", href: "/v1/chat" },
     { name: "Crisis Shield", href: "/v1/crisis_shield" },
     { name: "Knowledge Vault", href: "/v1/knowledge_vault" },
     { name: "War Room", href: "/v1/war_room" },

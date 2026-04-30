@@ -5,6 +5,7 @@ import React from 'react'
 import { useRef, useState, useEffect } from "react"
 import gsap from "gsap"
 import { ProjectType, SentimentData } from '@/types';
+import { useRouter } from 'next/navigation'
 import { useProjectStore } from '@/lib/zustand/ProjectStore';
 
 const PulseCard = ({ project }: { project: ProjectType }) => {
@@ -14,6 +15,8 @@ const PulseCard = ({ project }: { project: ProjectType }) => {
     const [sentiment, setSentiment] = useState<SentimentData | null>(null);
 
     const isCurrent = project.id === useProjectStore.getState().currentProject?.id;
+
+    const router = useRouter();
 
     const { setCurrentProject } = useProjectStore();
 
@@ -68,13 +71,18 @@ const PulseCard = ({ project }: { project: ProjectType }) => {
         })
     }
 
+    const handleClick = () => {
+        setCurrentProject(project);
+        router.refresh();
+    };
+
     return (
         <div
             ref={cardRef}
             className={`pulse-card ${isCurrent ? 'border-emerald-400/80 bg-green-900' : 'border-white/20 bg-black/20'}`}
             onMouseMove={handleMove}
             onMouseLeave={handleLeave}
-            onClick={() => setCurrentProject(project)}
+            onClick={handleClick}
         >
             <div className="flex justify-between items-start mb-4">
                 <span className="text-white/80 text-sm">{project.name}</span>

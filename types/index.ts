@@ -83,3 +83,10 @@ export type SentimentData = {
         negative: number;
     };
 };
+
+export type ChatMessage = {
+    id: string;
+    input: string;
+    response: string;
+    createdAt: Date;
+};

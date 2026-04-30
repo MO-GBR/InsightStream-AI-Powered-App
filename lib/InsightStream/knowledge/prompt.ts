@@ -1,17 +1,23 @@
 import { prisma } from "@/lib/prisma";
 import { retrieveMemory } from "./chatMemory";
 import { vectorSearch } from "./retrieveContext";
-import { embedQuery } from "../utils/AI";
+import { geminiEmbedQuery } from "../utils/AI";
 
 export const promptBuilder = async (projectId: string, query: string) => {
-    const queryEmbedding = await embedQuery(query)
+    const queryEmbedding = await geminiEmbedQuery(query);
+
+    console.log('embedding >>>', queryEmbedding);
 
     const memory = await retrieveMemory(projectId);
+
+    console.log('memory >>>', memory);
 
     const chunks = await vectorSearch({
         queryEmbedding,
         projectId,
     });
+
+    console.log('chuncks >>>', chunks);
 
     const context = chunks.map(c => c.content).join("\n\n");
 

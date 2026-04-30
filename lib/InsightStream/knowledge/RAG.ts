@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { extractText, chunkText, fileType, removeExtension } from "../utils/text_utils";
 import { embedChunks, generateContent, geminiEmbedChunks } from "../utils/AI";
 import { promptBuilder } from "./prompt";
+import { saveMemory } from "./chatMemory";
 
 export const ingestDocument = async (file: File, projectId: string) => {
     const documentTypes: string[] = ['application/pdf', 'text/plain', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
@@ -10,8 +11,6 @@ export const ingestDocument = async (file: File, projectId: string) => {
     const text = await extractText(file);
     const chuncks = chunkText(text);
     
-    console.log('chuncks >>>>>', chuncks);
-
     const document = await prisma.document.create({
         data: {
             fileName: removeExtension(file.name),
@@ -44,14 +43,9 @@ export const ingestDocument = async (file: File, projectId: string) => {
 export const askRAG = async (projectId: string, query: string) => {
     try {
         const prompt = await promptBuilder(projectId, query);
-        const response = await generateContent(prompt, 'puter');
-        await prisma.conversationMemory.create({
-            data: {
-                projectId,
-                input: query,
-                response: response || ''
-            }
-        });
+        console.log('prompt >>', prompt)
+        const response = await generateContent(prompt, 'gemini') as string;
+        await saveMemory(projectId, query, response)
         return response;
     } catch (error) {
         console.error("Error in askRAG:", error);

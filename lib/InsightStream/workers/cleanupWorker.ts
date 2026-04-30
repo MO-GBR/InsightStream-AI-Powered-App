@@ -5,7 +5,7 @@ export const runCleanupWorker = async () => {
     THIRTY_DAYS.setDate(THIRTY_DAYS.getDate() - 30);
 
     const SEVEN_DAYS = new Date();
-    SEVEN_DAYS.setDate(SEVEN_DAYS.getDate() - 30);
+    SEVEN_DAYS.setDate(SEVEN_DAYS.getDate() - 7);
 
     // Delete old analysis
     await prisma.analysis.deleteMany({

@@ -31,7 +31,7 @@ export default function Error({
 						width={50}
 						height={50}
 					/>
-					<p className='font-bold font-mono'>InsightSream</p>
+					<p className='font-bold font-mono'>InsightStream</p>
 				</div>
 				<h2 className='text-2xl font-bold'>Something went wrong!</h2>
 				<p className='text-red-600'>{error.message}</p>

@@ -81,5 +81,5 @@ export async function geminiEmbedQuery(query: string) {
         model: 'gemini-embedding-001',
         contents: query
     });
-    return response.embeddings;
+    return response.embeddings[0].values;
 };

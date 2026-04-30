@@ -63,7 +63,7 @@ const CreatePluse = () => {
                     type="text"
                     id="projectName"
                     name="projectName"
-                    className="pluse-input"
+                    className="pulse-input"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="Enter project name"
@@ -75,7 +75,7 @@ const CreatePluse = () => {
                     type="text"
                     id="keyword"
                     name="keyword"
-                    className="pluse-input"
+                    className="pulse-input"
                     value={keyword}
                     onChange={(e) => setKeyword(e.target.value)}
                     placeholder="Enter keyword to track"
@@ -86,7 +86,7 @@ const CreatePluse = () => {
                 <textarea
                     id="brandVoice"
                     name="brandVoice"
-                    className="pluse-input h-24 resize-none"
+                    className="pulse-input h-24 resize-none"
                     value={brandVoice}
                     onChange={(e) => setBrandVoice(e.target.value)}
                     placeholder="Describe your brand voice and tone"
