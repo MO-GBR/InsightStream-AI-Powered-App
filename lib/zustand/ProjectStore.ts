@@ -7,7 +7,7 @@ const normalizeProjectId = (value: string | null) => {
     return value.replace(/^"(.*)"$/, "$1");
 };
 
-export const useProjectStore = create<ProjectStore>((set) => ({
+export const useProjectStore = create<ProjectStore>((set, get) => ({
     projects: [],
     currentProject: null,
 
@@ -24,9 +24,11 @@ export const useProjectStore = create<ProjectStore>((set) => ({
             const savedId = normalizeProjectId(localStorage.getItem("ProjectId"));
 
             const data = await apiFetcherWithRetries("/api/projects/get_all");
+            const current = data.projects.find((p: ProjectType) => p.id === savedId) || data.projects[0] || null;
+            document.cookie = `currentProjectId=${current.id}; path=/; max-age=31536000; samesite=lax`;
             set({
                 projects: data.projects,
-                currentProject: data.projects.find((p: ProjectType) => p.id === savedId) || data.projects[0] || null,
+                currentProject: current
             });
         } catch (error) {
             console.error("Error fetching projects:", error);
