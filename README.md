@@ -4,6 +4,8 @@
 
 InsightStream is a modern AI-driven platform that helps you monitor brand mentions, analyze sentiment, and stay ahead of potential crises in real time. It combines social listening, AI insights, and intelligent automation into a single clean dashboard.
 
+![Preview](../my-app/public/App_Screen.jpg)
+
 ---
 
 ## 🚀 Overview

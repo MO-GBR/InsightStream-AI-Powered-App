@@ -6,6 +6,7 @@ import React, { useState } from 'react'
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from 'react-hook-form';
 import { registerSchema, RegisterInput } from '@/lib/utils/Zod';
+import { redirect } from "next/navigation";
 
 const SignUpPage = () => {
     const [selectedPlan, setSelectedPlan] = useState({
@@ -56,6 +57,8 @@ const SignUpPage = () => {
         reset();
 
         console.log('New User:', response);
+
+        redirect('/signin');
     };
 
     return (

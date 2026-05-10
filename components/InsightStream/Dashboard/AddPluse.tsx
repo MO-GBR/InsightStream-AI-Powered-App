@@ -17,7 +17,7 @@ const AddPluse = () => {
     };
     return (
         <div
-            className='bg-white/10 border border-dashed rounded-xl flex-center cursor-pointer'
+            className='bg-white/10 border border-dashed rounded-xl flex-center cursor-pointer max-lg:p-3'
             onClick={handleOpenModal}
         >
             <div className='flex-center gap-2'>

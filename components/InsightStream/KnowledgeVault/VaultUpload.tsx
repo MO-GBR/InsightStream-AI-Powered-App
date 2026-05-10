@@ -124,7 +124,7 @@ const VaultUpload = () => {
                 </p>
                 {
                     !isDragging && (
-                        <input type='file' name='file' onChange={handleChange} className='border p-2 rounded-2xl bg-black'/>
+                        <input type='file' name='file' onChange={handleChange} className='border p-2 rounded-2xl bg-black max-lg:w-[200px]'/>
                     )
                 }
                 <p className='text-xs text-muted-foreground mt-3'>

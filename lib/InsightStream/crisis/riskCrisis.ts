@@ -4,15 +4,14 @@ type RiskLevel = "LOW" | "MEDIUM" | "HIGH";
 
 export const scanRisk = async (projectId: string) => {
     if (!projectId) {
-        throw new Error("scanRisk requires a valid projectId");
+        // throw new Error("scanRisk requires a valid projectId");
+        return null;
     }
     const now = new Date();
 
     const windowMs = 1000 * 60 * 15; // 15 minutes
     const currentSince = new Date(now.getTime() - windowMs);
     const previousSince = new Date(currentSince.getTime() - windowMs);
-
-    console.log('id >>.>>', projectId);
 
     // 1) Current window
     const current = await prisma.analysis.findMany({

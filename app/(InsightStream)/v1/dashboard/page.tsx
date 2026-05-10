@@ -16,33 +16,32 @@ import BriefingAudio from '@/components/InsightStream/Dashboard/BriefingAudio';
 
 const Dashboard = async () => {
     const session = await auth();
-    if(!session?.user) redirect('/');
 
     const cookieStore = await cookies();
     const selectedProjectId = cookieStore.get('currentProjectId')?.value;
 
     const projects = await prisma.project.findMany({
-        where: { userId: session.user.id },
+        where: { userId: session?.user?.id },
         orderBy: { createdAt: 'asc' },
         select: { id: true },
     });
 
     const project = projects.find((item) => item.id === selectedProjectId) ?? projects[0];
 
-    const Alert = await scanRisk(project.id);
+    const Alert = await scanRisk(project?.id);
 
     console.log('id', selectedProjectId, 'project', project, 'Alert', Alert);
 
     return (
-        <div className='w-full'>
-            <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 w-full p-5'>
+        <div className='w-full max-lg:flex-center'>
+            <div className='w-full p-5 grid grid-cols-3 gap-6 max-lg:flex max-lg:flex-col'>
                 <SummaryCard />
                 <BriefingAudio />
                 <HeatmapCard />
                 <VibeCard />
                 <AddPluse />
                 {
-                    Alert.risk !== "LOW" && <CrisisCard mentionsSpike={Alert.mentionsSpike} topKeyword={Alert.topKeyword} /> 
+                    (Alert !== null && Alert.risk !== "LOW" ) && <CrisisCard mentionsSpike={Alert.mentionsSpike} topKeyword={Alert.topKeyword} /> 
                 }
                 <AllPluses />
             </div>

@@ -7,6 +7,8 @@ import DashboardBackground from "@/style/DashboardBackground";
 import GradientAnimation from "@/style/GradientAnimation"
 import { SessionProvider } from "next-auth/react";
 
+// grid grid-cols-[15rem_1fr]
+
 export default function DashboardLayout({
 	children,
 }: {
@@ -16,9 +18,9 @@ export default function DashboardLayout({
 		<SessionProvider>
 			<div className="flex flex-col">
 				<CommandBar />
-				<div className="grid grid-cols-[15rem_1fr]">
+				<div className="flex">
 					<Sidebar />
-					<div className="col-span-1 h-full min-h-screen">
+					<div className="h-full min-h-screen max-lg:h-fit w-full">
 						<Navbar />
 						<Modal />
 						{children}

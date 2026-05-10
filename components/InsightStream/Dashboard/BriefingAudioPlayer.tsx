@@ -66,7 +66,7 @@ export default function BriefingAudioPlayer({ audioUrl }: { audioUrl: string }) 
     <div className="w-full max-w-2xl mx-auto bg-[#3d3d3d] rounded-2xl shadow p-4 space-y-4">
         <div ref={waveformRef} className="w-full" />
 
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between max-lg:flex-col max-lg:gap-4">
             <div className="flex items-center gap-3">
                 <button
                     onClick={togglePlay}

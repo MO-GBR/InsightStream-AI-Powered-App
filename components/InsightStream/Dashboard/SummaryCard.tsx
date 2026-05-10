@@ -1,17 +1,10 @@
 import { auth } from '@/lib/auth'
 import { sentimentScanner } from '@/lib/InsightStream/sentiment/sentimentScanner'
-import { ProjectAPI } from '@/lib/InsightStream/services/project/ProjectAPI'
 import { prisma } from '@/lib/prisma'
 import React from 'react'
 
 const SummaryCard = async () => {
     const session = await auth();
-
-    const user = await prisma.user.findUnique({
-        where: {
-            id: session?.user?.id
-        }
-    });
 
     const projects = await prisma.project.findMany({
         where: {
@@ -39,12 +32,11 @@ const SummaryCard = async () => {
 
     for (const project of projects) {
         const projectSentiment = await sentimentScanner(project.id);
-        console.log('Tester:', projectSentiment.label)
         avgSentiment += projectSentiment.sentiment;
     }
 
     return (
-        <div className="summary-card">
+        <div className="summary-card max-lg:w-fit">
             <h3 className="text-white font-medium mb-4">
                 System Overview
             </h3>

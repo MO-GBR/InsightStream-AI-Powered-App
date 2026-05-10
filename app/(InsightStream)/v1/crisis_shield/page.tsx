@@ -26,7 +26,7 @@ const page = async () => {
     return (
         <div>
             <CrisisShieldHeader />
-            <div className='flex items-center gap-2 w-full'>
+            <div className='flex items-center gap-2 w-full max-lg:flex-col'>
                 <CrisisStatusCard risk={Alert.risk} mentionsSpike={Alert.mentionsSpike} message={Alert.message} />
                 <NegativeSentimentChart />
             </div>

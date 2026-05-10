@@ -1,19 +1,22 @@
 "use client"
 
 import { InsightStreamLinks } from "@/constants"
+import { useToggleMenuStore } from "@/lib/zustand/ToggleStore"
 import { Command } from "cmdk"
 import { useRouter } from "next/navigation"
 import { useState, useEffect } from "react"
 
 const CommandBar = () => {
-    const [open, setOpen] = useState(false);
+    // const [open, setOpen] = useState(false);
     const router = useRouter();
+
+    const { open: openCommandMenu, toggle: toggleCommandMenu, setToggle: setToggleCommandMenu } = useToggleMenuStore();
 
     useEffect(() => {
         const down = (e: KeyboardEvent) => {
             if((e.ctrlKey || e.metaKey) && e.key === "k") {
                 e.preventDefault();
-                setOpen(o => !o);
+                toggleCommandMenu();
             }
         };
 
@@ -23,10 +26,11 @@ const CommandBar = () => {
     }, []);
     return (
         <Command.Dialog
-            open={open} 
+            open={openCommandMenu} 
             className="fixed inset-0 z-50 flex items-start justify-center pt-40 bg-black/40"
-            onOpenChange={setOpen} label="Command Menu"
+            onOpenChange={setToggleCommandMenu} label="Command Menu"
         >
+            <h1>Main Menu</h1>
             <Command className="w-fit rounded-xl bg-black shadow-xl p-4">
                 <Command.Input 
                     placeholder="Search InsightStream..."

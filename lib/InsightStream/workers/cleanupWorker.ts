@@ -29,8 +29,17 @@ export const runCleanupWorker = async () => {
     await prisma.event.deleteMany({
         where: {
             createdAt: {
-            lt: SEVEN_DAYS
+                lt: SEVEN_DAYS
+            }
         }
-    }
-  });
+    });
+
+    // Delete old crisis
+    await prisma.crisis.deleteMany({
+        where: {
+            createdAt: {
+                lt: SEVEN_DAYS
+            }
+        }
+    });
 };

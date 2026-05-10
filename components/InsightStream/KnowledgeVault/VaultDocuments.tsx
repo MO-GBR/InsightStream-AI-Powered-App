@@ -32,6 +32,7 @@ const VaultDocuments = async () => {
             createdAt: 'desc'
         }
     });
+
     return (
         <div className='rounded-xl border p-6'>
             <h3 className='mb-4 font-semibold'>
@@ -41,7 +42,7 @@ const VaultDocuments = async () => {
                 <thead className='text-muted-foreground'>
                     <tr>
                         <th className="text-left py-2">File</th>
-                        <th className="text-left">Type</th>
+                        <th className="text-left max-lg:mr-3">Type</th>
                         <th className="text-left">Uploaded</th>
                     </tr>
                 </thead>

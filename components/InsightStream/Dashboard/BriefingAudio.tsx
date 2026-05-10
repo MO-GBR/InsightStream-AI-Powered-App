@@ -18,7 +18,7 @@ const BriefingAudio = async () => {
     }
 
     return (
-        <div className='col-span-2'>
+        <div className='col-span-2 flex flex-col'>
             <h3 className="font-semibold mb-4">
                 Latest Briefing Audio
             </h3>

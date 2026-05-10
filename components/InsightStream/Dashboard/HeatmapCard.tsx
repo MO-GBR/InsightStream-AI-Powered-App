@@ -22,7 +22,7 @@ const HeatmapCard = () => {
             <div className="grid grid-cols-7 gap-2">
                 {
                     ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((day, idx) => (
-                        <div key={idx}>{day}</div>
+                        <div key={idx} className='max-lg:text-xs'>{day}</div>
                     ))
                 }
                 {sentimentData.map((score, i) => (
