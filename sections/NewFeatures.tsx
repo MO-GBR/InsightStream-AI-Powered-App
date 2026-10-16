@@ -1,3 +1,5 @@
+import MagneticButton from '@/components/Landing_Page/MagneticButton'
+import SectionHeading from '@/components/Landing_Page/SectionHeading'
 import { UpcomingFeatures } from '@/constants'
 import Image from 'next/image'
 import React from 'react'
@@ -5,12 +7,14 @@ import React from 'react'
 const NewFeatures = () => {
     return (
         <section className='flex-center flex-col'>
-            <div className='flex-center flex-col my-8'>
-                <h1 className='text-violet-800 font-bold'>{'[COMING SOON]'}</h1>
-                <h1 className='text-2xl font-mono'>What we're working on</h1>
-            </div>
+            <SectionHeading
+                eyebrow='New Features'
+                title='What we’re working on'
+                description='Stay updated with the latest features and improvements we are developing for you.'
+                align='left'
+            />
             <div className='flex-center max-lg:flex-col gap-10'>
-                <div className='bg-gray-500 p-1 rounded-xl max-lg:mx-2'>
+                <div className='bg-[#00530e] p-1 rounded-xl max-lg:mx-2'>
                     <div className='bg-black p-5 rounded-xl'>
                         <Image
                             src='/roadmap/image-1.png'
@@ -21,7 +25,7 @@ const NewFeatures = () => {
                     </div>
                 </div>
                 <div className='max-lg:mx-2'>
-                    <div className='g-9 p-3 rounded-full my-5 font-bold text-sm text-center'>#COOKING_MAGIC</div>
+                    <div className='bg-[#33cc33] p-3 rounded-full my-5 font-bold text-sm text-center'>#COOKING_MAGIC</div>
                     {
                         UpcomingFeatures.map((feature, index) => (
                             <div key={index}>
@@ -30,7 +34,7 @@ const NewFeatures = () => {
                             </div>
                         ))
                     }
-                    <button className='p-5 rounded-[5px] bg-violet-700 text-white rounded-tr-3xl'>Learn More</button>
+                    <MagneticButton>Learn More</MagneticButton>
                 </div>
             </div>
         </section>

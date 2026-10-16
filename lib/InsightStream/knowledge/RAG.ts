@@ -9,7 +9,7 @@ export const ingestDocument = async (file: File, projectId: string) => {
     if(!documentTypes.includes(file.type)) throw new Error('Invalid document type');
 
     const text = await extractText(file);
-    const chuncks = chunkText(text);
+    const chunks = chunkText(text);
     
     const document = await prisma.document.create({
         data: {
@@ -19,11 +19,11 @@ export const ingestDocument = async (file: File, projectId: string) => {
         }
     });
     
-    const embeddings = await geminiEmbedChunks(chuncks);
+    const embeddings = await geminiEmbedChunks(chunks);
 
 
     await prisma.$transaction(
-        chuncks.map((chunk, index) => {
+        chunks.map((chunk, index) => {
             const embedding = embeddings[index].values;
             if (!embedding) {
                 throw new Error(`Missing embedding for chunk index ${index}`);

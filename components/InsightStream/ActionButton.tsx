@@ -6,10 +6,7 @@ const ActionButton = async () => {
     const session = await auth();
     return (
         <div className='flex items-center justify-between px-2 gap-3'>
-            <div>
-                Welcome Back, {session?.user?.name}
-            </div>
-            <div className='border rounded-full'>
+            <div className='border rounded-full' title={session?.user?.name!}>
                 {
                     session?.user?.image
                         && <Image src={session.user.image} alt='user' height={40} width={40} className='rounded-full' />

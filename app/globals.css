@@ -46,7 +46,7 @@
     }
 
     .btn-primary {
-        @apply p-2 bg-violet-700 hover:bg-violet-500 rounded-tr-3xl px-7 decoration-0 text-white;
+        @apply p-2 bg-[#0fff37] hover:bg-[#00530e] rounded-tr-3xl px-7 decoration-0 text-white font-bold;
     }
 
     .img {
@@ -134,12 +134,8 @@
     background: url("/hero/gradient.png") no-repeat center center/cover;
 }
 
-#collab{
-    background: url("/robots/service-2.png") no-repeat center center/cover;
-}
-
 #signin {
-    background: url("/robots/service-1.png") no-repeat center center/cover;
+    background: url("/BG-1.jpg") no-repeat center center/cover;
 }
 
 .gradient-bg {

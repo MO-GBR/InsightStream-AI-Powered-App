@@ -1,11 +1,12 @@
+import MagneticButton from '@/components/Landing_Page/MagneticButton'
 import Image from 'next/image'
 import React from 'react'
 
 const Hero = () => {
     return (
         <section id='hero' className='min-h-screen flex-center gap-10 flex-col'>
-            <h1 className="text-4xl mb-6 mt-20 max-lg:mt-32 max-lg:ml-5">
-                Explore the Possibilities of&nbsp;AI&nbsp;Chatting with {` `}
+            <h1 className="text-4xl mb-6 mt-28 max-lg:mt-32 max-lg:ml-5">
+                Explore the Possibilities of&nbsp;AI&nbsp;the best AI Business App with {` `}
                 <span className="inline-block relative font-mono">
                     InsightStream{" "}
                     <img
@@ -19,9 +20,9 @@ const Hero = () => {
             </h1>
             <p className="text-gray-300 text-lg max-w-xl text-center max-lg:mb-12">
                 Unleash the power of AI within InsightStream. Upgrade your productivity
-                with InsightStream, the open AI chat app.
+                with InsightStream, the open AI app.
             </p>
-            <div className='border-2 border-white p-3 w-[20%] max-lg:w-[80%] text-center bg-transparent rounded rounded-tr-3xl font-bold cursor-pointer z-10'>Get Started</div>
+            <MagneticButton />
             <div className='g-11 rounded-2xl pt-3 p-0.5 w-fit mb-[100px] max-lg:mx-2'>
                 <div className='flex items-center justify-start g-9 p-2 w-fit rounded-tl-2xl gap-3 ml-4 rounded-tr-2xl'>
                     <div className='dot bg-red-600' />

@@ -71,9 +71,9 @@ const Modal = () => {
                 )
             }
             <div className="modal" ref={modalRef}>
-                <div className='bg-black border cursor-pointer w-[100px] flex-center gap-3 p-2 rounded-full' onClick={handleClose}>
-                    ESC
-                    <span className='text-white font-bold p-1 rounded-full bg-gray-600'>X</span>
+                <div className='bg-green-900 border border-gray-700 w-full flex items-center justify-between p-2 rounded-xl'>
+                    <span className='ml-3 font-bold'>Create Project</span>
+                    <span className='mr-3 text-2xl cursor-pointer hover:text-gray-500' onClick={handleClose}>x</span>
                 </div>
                 {content}
             </div>

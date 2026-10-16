@@ -3,13 +3,13 @@
 import { useModalStore } from '@/lib/zustand/ModalStore';
 import Image from 'next/image'
 import React from 'react'
-import CreatePluse from './CreatePluse';
+import AddProjectModal from './AddProjectModal';
 
 const AddPluse = () => {
     const { openModal } = useModalStore();
     const handleOpenModal = () => {
         try {
-            openModal(<CreatePluse />);
+            openModal(<AddProjectModal />);
             console.log('Modal opened successfully');
         } catch (error) {
             console.error('Error opening modal:', error);

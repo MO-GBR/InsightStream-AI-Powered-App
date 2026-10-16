@@ -49,7 +49,7 @@ export const extractText = async (file: File) => {
     return result.text.replace(/\r/g, "")
         .replace(/\n{3,}/g, "\n\n")
         .replace(/[ \t]{2,}/g, " ")
-        .trim();;
+        .trim();
 };
 
 export const fileType = (type: string) => {

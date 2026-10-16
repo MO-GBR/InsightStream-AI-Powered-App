@@ -16,13 +16,13 @@ export type FeatureType = {
     hashtag: string;
     title: string;
     description: string;
-    card?: string;
 };
 
 export type PricingPlan = {
-    name: string;
-    price: number;
+    title: string;
+    price: string;
     features: string[];
+    popular?: boolean;
 }
 
 export type EventType = {

@@ -30,7 +30,7 @@ const DashboardBackground = () => {
         <div className="absolute inset-0 -z-10 overflow-hidden">
             <div
                 ref={blob1}
-                className="absolute w-[600px] h-[600px] bg-purple-500/20 blur-[150px] rounded-full top-[-100px] left-[-100px]"
+                className="absolute w-[600px] h-[600px] bg-green-500/20 blur-[150px] rounded-full top-[-100px] left-[-100px]"
             />
             <div
                 ref={blob2}

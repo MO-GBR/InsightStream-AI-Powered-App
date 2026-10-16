@@ -2,7 +2,7 @@ import CommandBar from "@/components/InsightStream/CommandBar";
 import Footer from "@/components/InsightStream/Footer";
 import Navbar from "@/components/InsightStream/Navbar";
 import Sidebar from "@/components/InsightStream/Sidebar"
-import Modal from "@/components/Modal";
+import Modal from "@/components/InsightStream/Modal";
 import DashboardBackground from "@/style/DashboardBackground";
 import GradientAnimation from "@/style/GradientAnimation"
 import { SessionProvider } from "next-auth/react";

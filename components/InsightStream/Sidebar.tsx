@@ -6,29 +6,43 @@ import { usePathname } from 'next/navigation';
 import React, { useEffect } from 'react'
 import gsap from "gsap";
 import { useToggleStore } from '@/lib/zustand/ToggleStore';
+import Logo from '../Logo';
+import { useSession } from 'next-auth/react';
+import { ToggleSideBar } from './ToggleMenu';
 
 const Sidebar = () => {
     const pathname = usePathname();
 
-    const { open } = useToggleStore();
+    const { data: session } = useSession();
 
-    
+    const { open } = useToggleStore();
 
     useEffect(() => {
         gsap.set(
             '.menu',
             {
-                x: 250
+                x: 300
             }
         )
     }, []);
 
     return (
         <>
-            <div className='menu w-[15rem] h-full bg-gray-900 border-r fixed top-0 right-0 z-50 max-w-xs shadow-xl p-6'>
-                <div className='flex-center gap-2 bg-gray-700 my-5 mx-2 p-2 rounded-2xl'>
-                    <Image src="/logo.svg" alt='logo' width={30} height={30} />
-                    <p className='font-bold font-mono'>InsightStream</p>
+            <div
+                className='menu w-[18rem] h-full bg-black border-l border-green-600 fixed top-0 right-0 z-50 max-w-xs shadow-xl p-6'
+            >
+                <div className='flex-center flex-col p-5'>
+                    <div className='flex-center'>
+                        <div className="group flex items-center gap-3 bg-[#141414] rounded-[10px]">
+                            <Logo square="h-8 w-8" dot="h-2 w-2" />
+            
+                            <span className="text-sm font-bold tracking-[0.2em] text-white">
+                                INSIGHT<span className="text-[#0fff37]">STREAM</span>
+                            </span>
+                        </div>
+                        <ToggleSideBar />
+                    </div>
+                    <span className='text-green-300'>Hi, {session?.user?.name}</span>
                 </div>
                 <div className='flex flex-col p-2'>
                     {
@@ -36,30 +50,9 @@ const Sidebar = () => {
                             <a 
                                 key={index} 
                                 href={link.href} 
-                                className={`text-white decoration-0 my-2 p-2 rounded-2xl hover:bg-gray-700 ${pathname === link.href ? 'bg-gray-700' : ''}`}
+                                className={`decoration-0 my-2 p-2 rounded-2xl hover:bg-gray-700 ${pathname === link.href ? 'bg-green-300 text-black font-bold' : 'text-white'}`}
                             >
                                 {link.name}
-                            </a>
-                        ))
-                    }
-                </div>
-                <div className='my-5 mx-2 rounded-2xl p-3 bg-gray-700'>
-                    {
-                        [
-                            {
-                                title: 'Setting',
-                                href: '/setting',
-                                icon: '/icons/sliders-04.svg'
-                            },
-                            {
-                                title: 'Account',
-                                href: '/account',
-                                icon: '/icons/white-person.svg'
-                            }
-                        ].map((link, index) => (
-                            <a key={index} href={link.href} className='flex-center gap-2 p-1 hover:bg-gray-600 rounded-2xl my-1'>
-                                <Image src={link.icon} alt={link.title} width={30} height={30} />
-                                <p className='font-mono'>{link.title}</p>
                             </a>
                         ))
                     }

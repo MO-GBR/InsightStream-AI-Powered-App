@@ -7,7 +7,6 @@ import { useRouter } from "next/navigation"
 import { useState, useEffect } from "react"
 
 const CommandBar = () => {
-    // const [open, setOpen] = useState(false);
     const router = useRouter();
 
     const { open: openCommandMenu, toggle: toggleCommandMenu, setToggle: setToggleCommandMenu } = useToggleMenuStore();
